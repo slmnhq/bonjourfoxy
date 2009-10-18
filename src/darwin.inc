@@ -1,0 +1,14 @@
+DP_XR_SDK_PATH = ../sdk/macppc/xulrunner-sdk
+DI_XR_SDK_PATH = ../sdk/macintel/xulrunner-sdk
+XPIDL                 = $(DI_XR_SDK_PATH)/bin/xpidl
+IDL_INCLUDES          = -I $(DI_XR_SDK_PATH)/sdk/idl -I $(DI_XR_SDK_PATH)/idl
+STABLE_IDL_INCLUDES   =
+UNSTABLE_IDL_INCLUDES =
+NSPR_INCLUDES         =
+AVAHI_INCLUDES        =
+CFLAGS                = -fshort-wchar
+LDFLAGS               = -Wl,-executable_path, -fshort-wchar
+LIBS                  = -lxpcomglue_s -lxpcom -lnspr4
+IMPL_OBJS = bfdnssdimpl-darwin-intel.o bfdnssdimpl-darwin-ppc.o
+MOD_OBJS = bfdnssdmodule-darwin-intel.o bfdnssdmodule-darwin-ppc.o
+LIB_OBJS = bfdnssd-darwin-intel.dylib bfdnssd-darwin-ppc.dylib  bfdnssd-darwin-universal.dylib

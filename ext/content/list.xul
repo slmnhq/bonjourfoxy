@@ -31,8 +31,9 @@ var HttpServiceBrowser = {
     bfbrowse: null,
     startup: function() {
         document.getElementById("tcServiceList").addEventListener("click", this.tcServiceListEventHandler, false);
-        this.bfbrowse = Components.classes["@bonjourfoxy.net/bfbrowse;1"].createInstance(Components.interfaces.BFBrowse);
-        this.bfbrowse.callback = this.newBrowseCallback();
+        this.bfbrowse = Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+                        .createInstance(Components.interfaces.BFIDNSSD);
+        this.bfbrowse.browseCallback = this.newBrowseCallback();
         this.bfbrowse.interfaceIndex = 0;
         this.bfbrowse.registrationType = "_http._tcp";
         this.bfbrowse.registrationDomain = "";
@@ -69,12 +70,13 @@ var HttpServiceBrowser = {
                  prefs = prefs.getBranch("extensions.bonjourfoxy.");
                  linkTarget = prefs.getCharPref("target");
             }
-            var bfresolve = Components.classes["@bonjourfoxy.net/bfresolve;1"].createInstance(Components.interfaces.BFResolve);
+            var bfresolve = Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+                            .createInstance(Components.interfaces.BFIDNSSD);
             bfresolve.interfaceIndex = 0;
             bfresolve.registrationType = registrationType;
             bfresolve.registrationDomain = registrationDomain;
             bfresolve.serviceName = serviceName;
-            bfresolve.callback = HttpServiceBrowser.newResolveCallback(linkTarget);
+            bfresolve.resolveCallback = HttpServiceBrowser.newResolveCallback(linkTarget);
             bfresolve.resolve();
         }
     },

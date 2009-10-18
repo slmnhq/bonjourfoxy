@@ -8,11 +8,9 @@
 var ServiceBrowser = {
     ServiceBrowsers: Object(),
     addServiceBrowser: function (regtype, callback) {
-        this.ServiceBrowsers[regtype] = Components.classes["@bonjourfoxy.net/bfbrowse;1"]
-                                                  .createInstance(Components.interfaces.BFBrowse);
-        this.ServiceBrowsers[regtype] = Components.classes["@bonjourfoxy.net/bfbrowse;1"]
-                                                  .createInstance(Components.interfaces.BFBrowse);
-        this.ServiceBrowsers[regtype].callback = callback;
+        this.ServiceBrowsers[regtype] = Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+                                        .createInstance(Components.interfaces.BFIDNSSD);
+        this.ServiceBrowsers[regtype].browseCallback = callback;
         this.ServiceBrowsers[regtype].interfaceIndex = 0;
         this.ServiceBrowsers[regtype].registrationType = regtype;
         this.ServiceBrowsers[regtype].browse();
@@ -91,13 +89,13 @@ var ServiceBrowser = {
         var registrationDomain = listitem.getUserData("registrationDomain");
         var registrationType = listitem.getUserData("registrationType");
         this.ServiceResolver = null;
-        this.ServiceResolver = Components.classes["@bonjourfoxy.net/bfresolve;1"]
-                                         .createInstance(Components.interfaces.BFResolve);
+        this.ServiceResolver = Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+                               .createInstance(Components.interfaces.BFIDNSSD);
         this.ServiceResolver.interfaceIndex = interfaceIndex;
         this.ServiceResolver.registrationType = registrationType;
         this.ServiceResolver.registrationDomain = registrationDomain;
         this.ServiceResolver.serviceName = serviceName;
-        this.ServiceResolver.callback = this.resolveCallback(serviceName,
+        this.ServiceResolver.resolveCallback = this.resolveCallback(serviceName,
                                                              registrationType,
                                                              registrationDomain);
         this.ServiceResolver.resolve();

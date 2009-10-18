@@ -15,8 +15,8 @@ var bonjourfoxy = {
     } else {
         document.getElementById('bonjourfoxyMenuPref').setAttribute('label', this.strings.getString('unixPrefLabel'));
     }
-    this.bfbrowse = Components.classes["@bonjourfoxy.net/bfbrowse;1"].createInstance(Components.interfaces.BFBrowse);
-    this.bfbrowse.callback = this.browseCallback();
+    this.bfbrowse = Components.classes["@bonjourfoxy.net/bfdnssd;1"].createInstance(Components.interfaces.BFIDNSSD);
+    this.bfbrowse.browseCallback = this.browseCallback();
     this.bfbrowse.interfaceIndex = 0;
     this.bfbrowse.registrationType = "_http._tcp";
     this.bfbrowse.registrationDomain = "";

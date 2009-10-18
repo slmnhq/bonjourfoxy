@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="bfregister"
-	ProjectGUID="{80B88F29-0B68-47E4-8BF1-971BE0E671B2}"
-	RootNamespace="BFRegister"
+	Name="bfdnssd"
+	ProjectGUID="{A38EEA3D-7D2F-4B83-839F-6639A691CFF2}"
+	RootNamespace="BFDNSSD"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="0"
 	>
@@ -19,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="$(SolutionDir)"
-			IntermediateDirectory="$(SolutionDir)..\..\scratch\registerIntermediate"
+			IntermediateDirectory="$(SolutionDir)..\..\scratch\intermediate"
 			ConfigurationType="2"
 			>
 			<Tool
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;..\..\sdk\win32\xulrunner-sdk\sdk\include&quot;;&quot;..\..\sdk\win32\xulrunner-sdk\include\xpcom&quot;;&quot;C:\Program Files\Bonjour SDK\Include&quot;"
+				AdditionalIncludeDirectories="&quot;..\sdk\win32\xulrunner-sdk\sdk\include&quot;;&quot;..\sdk\win32\xulrunner-sdk\include\xpcom&quot;;&quot;C:\Program Files\Bonjour SDK\Include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DNSSD_EXPORTS;WIN32;_WINDOWS;_USRDLL;XP_WIN;XP_WIN32"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="nspr4.lib xpcom.lib xpcomglue_s.lib ws2_32.lib dnssd.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;..\..\sdk\win32\xulrunner-sdk\sdk\lib&quot;;&quot;..\..\sdk\win32\xulrunner-sdk\lib&quot;;&quot;C:\Program Files\Bonjour SDK\lib\win32&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib&quot;"
+				AdditionalLibraryDirectories="&quot;..\sdk\win32\xulrunner-sdk\sdk\lib&quot;;&quot;..\sdk\win32\xulrunner-sdk\lib&quot;;&quot;C:\Program Files\Bonjour SDK\lib\win32&quot;;&quot;C:\Program Files\Microsoft SDKs\Windows\v6.0A\Lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -168,19 +168,19 @@
 	</References>
 	<Files>
 		<File
-			RelativePath=".\bfregister-impl.cpp"
+			RelativePath=".\bfdnssdimpl.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\bfregister-impl.h"
+			RelativePath=".\bfdnssdimpl.h"
 			>
 		</File>
 		<File
-			RelativePath=".\bfregister-module.cpp"
+			RelativePath=".\bfdnssdmodule.cpp"
 			>
 		</File>
 		<File
-			RelativePath=".\dll-entry.cpp"
+			RelativePath=".\dllentry.cpp"
 			>
 		</File>
 	</Files>

@@ -1,0 +1,60 @@
+<html>
+<head>
+<script type="text/javascript">
+var component;
+var state=Object();
+
+var callback=function(error, add, ifIndex, sname, rtype, rdomain){
+    if (!error) {
+        if (!state[sname]) {
+            state[sname]=0;
+            }
+        selbox = document.getElementById("selbox");
+        if (add) {
+            state[sname]++;
+            if (state[sname]==1) {
+                opt = document.createElement("option");
+                opt.innerHTML = sname;
+                selbox.appendChild(opt);
+                }
+            } else {
+            state[sname]--;
+            if (state[sname]==0) {
+                for (child in selbox.childNodes) {
+                    if (selbox.childNodes[child].innerHTML == sname)    {
+                        selbox.removeChild(selbox.childNodes[child]);
+                        selbox.style.display = 'none';
+                        selbox.style.display = '';
+                    }
+                }
+            }
+        }
+    }
+};
+
+function browse()   {
+    netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+    component=Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+              .createInstance(Components.interfaces.BFIDNSSD);
+    component.browseCallback=callback;
+    component.interfaceIndex=0;                           // all interfaces
+    component.registrationType="_services._dns-sd._udp";  // services availible
+    component.registrationDomain="local";
+    component.browse();
+}
+
+window.onload = browse;
+</script>
+<style>
+body { font-family: "Helvetica Neue", Helvetica, "MgOpen Moderna", sans-serif; background: #fdfdfd; }
+h1 { color: #c00; }
+h1, h2 { margin: 0; padding: 0; }
+select { width: 100%; height: 70%; border: none; font-size: 1.1em; }
+</style>
+</head>
+<body>
+<h1>BFDNSSD Browse Test</h1>
+<h2>_services._dns-sd._udp:</h2>
+<select id="selbox" size="2"></select>
+</body>
+</html>

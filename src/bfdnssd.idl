@@ -1,0 +1,66 @@
+#include "nsISupports.idl"
+
+#include "bfdnssdenumeratecallback.idl"
+#include "bfdnssdbrowsecallback.idl"
+#include "bfdnssdresolvecallback.idl"
+#include "bfdnssdregistercallback.idl"
+
+[scriptable, uuid(E43A0E26-42C2-4A0F-8A57-538424CC7E49)]
+
+interface BFIDNSSD : nsISupports
+{
+
+    // Interface to search on (All)
+    attribute long interfaceIndex;
+
+    // registration or browse domain (Enumerate)
+    attribute PRBool domainType;
+    
+    // autorename in case of naming conflict (Register)
+    attribute PRBool autorename;
+
+    // Service Name (Register, Resolve)
+    attribute AString serviceName;
+    
+    // Registration Type (Register, Resolve, Browse)
+    attribute AString registrationType;
+    
+    // Registration Domain (Register, Resolve, Browse)
+    attribute AString registrationDomain;
+
+    // Target host (Register)
+    attribute AString targetHost;
+    
+    // Port (Register)
+    attribute long targetPort;
+
+    // Text record key (Register)
+    attribute AString txtRecordKey;
+
+    // Text record value (Register)
+    attribute AString txtRecordValue;
+
+    // Add enumerate callback
+    attribute BFIEnumerateCallback enumerateCallback;
+
+    // Start enumerating
+    void enumerate();
+
+    // Add browse callback
+    attribute BFIBrowseCallback browseCallback;
+
+    // Start browsing
+    void browse();
+
+    // Add resolve callback
+    attribute BFIResolveCallback resolveCallback;
+
+    // Start resolving
+    void resolve();
+
+    // Add register callback
+    attribute BFIRegisterCallback registerCallback;
+
+    // Start registration
+    void register();
+};

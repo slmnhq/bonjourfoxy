@@ -2,7 +2,7 @@
 
 [scriptable, function, uuid(5AD26D20-A085-4BEE-A3A9-06925BAD5AAD)]
 
-interface BFResolveCallback : nsISupports {
+interface BFIResolveCallback : nsISupports {
     void callback( in long error,
                    in long interfaceIndex,
                    in AString hostname,

@@ -20,6 +20,6 @@ find src -name "*.js" -exec cp {} ${dir}/components \;
 mkdir -pv ${dir}/platform/Linux/components
 find src -name "*.so" -exec cp {} ${dir}/platform/Linux/components \;
 mkdir -pv ${dir}/platform/Darwin/components
-find src -name "*darwin.dylib" -exec cp {} ${dir}/platform/Darwin/components \;
+find src -name "*universal.dylib" -exec cp {} ${dir}/platform/Darwin/components \;
 mkdir -pv ${dir}/platform/WINNT/components
 find src -name "*.dll" -exec cp {} ${dir}/platform/WINNT/components \;
