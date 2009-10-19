@@ -5,7 +5,7 @@ function BFNotifier() {
 }
 BFNotifier.prototype = {
     classID: Components.ID("2a0884a8-40d8-4e12-afd6-26530b2e47c2"), // xxx generate guid
-    contractID: "@andrew.tj.id.au/bfnotifier;1", // XXX generated contractid too
+    contractID: "@bonjourfoxy.net/bfnotifier;1", // XXX generated contractid too
     classDescription: "BFNotifier",
 
     QueryInterface: function(aIID) {
@@ -38,6 +38,7 @@ BFNotifier.prototype = {
             }
         }
     },
+    initdone: false,
     observe: function(aSubject, aTopic, aData) {
     switch(aTopic) {
         case "xpcom-startup":
@@ -45,22 +46,20 @@ BFNotifier.prototype = {
             // user profile information is applied. Register ourselves as an observer
             // for 'profile-after-change' and 'quit-application'.
             this.obsSvc = CC["@mozilla.org/observer-service;1"].getService(CI.nsIObserverService);
-            this.obsSvc.addObserver(this, "profile-after-change", true);
-            this.obsSvc.addObserver(this, "quit-application", true);
+            this.obsSvc.addObserver(this, "toplevel-window-ready", true);
             break;
-        
-        case "profile-after-change":
-            this.bfbrowse = Components.classes["@bonjourfoxy.net/bfbrowse;1"]
-                .createInstance(Components.interfaces.BFBrowse);
-            this.bfbrowse.callback=this.browseCallback;
-            this.bfbrowse.interfaceIndex=0;
-            this.bfbrowse.registrationType="_http._tcp";
-            this.bfbrowse.registrationDomain="local.";
-            this.bfbrowse.browse();
-        break;
-        
-        case "profile-before-change":
-            this.bfbrowse = null;
+
+        case "toplevel-window-ready":
+            if (!this.initdone) {
+                this.initdone = true;
+                this.bfbrowse = Components.classes["@bonjourfoxy.net/bfdnssd;1"]
+                    .createInstance(Components.interfaces.BFIDNSSD);
+                this.bfbrowse.browseCallback=this.browseCallback;
+                this.bfbrowse.interfaceIndex=0;
+                this.bfbrowse.registrationType="_http._tcp";
+                this.bfbrowse.registrationDomain="local.";
+                this.bfbrowse.browse();
+            }
         break;        
         }
     }
