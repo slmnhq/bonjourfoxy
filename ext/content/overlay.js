@@ -137,12 +137,12 @@ var bonjourfoxy = {
     }
   },
   menuCmdHandler: function(event) {
-    var bfresolve=Components.classes["@bonjourfoxy.net/bfresolve;1"].createInstance(Components.interfaces.BFResolve);
+    var bfresolve=Components.classes["@bonjourfoxy.net/bfdnssd;1"].createInstance(Components.interfaces.BFIDNSSD);
     bfresolve.interfaceIndex=0;
     bfresolve.registrationType=event.target.getUserData("registrationType");
     bfresolve.registrationDomain=event.target.getUserData("registrationDomain");
     bfresolve.serviceName=event.target.getUserData("serviceName");
-    bfresolve.callback = this.resolveCallback();
+    bfresolve.resolveCallback = this.resolveCallback();
     bfresolve.resolve();
   },
   resolveCallback: function ()  {
