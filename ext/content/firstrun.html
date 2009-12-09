@@ -71,21 +71,23 @@ function localise() {
         document.getElementById('toolbarImageMac').style.display="none";
     }
     if (platform.match(/Win/))  {
-        document.getElementById('prefUnixMac').style.display="none";
         document.getElementById('prefUnixMacH').style.display="none";
         document.getElementById('prefUnixMacM').style.display="none";
     } else {
-        document.getElementById('prefWin').style.display="none";
         document.getElementById('prefWinH').style.display="none";
         document.getElementById('prefWinM').style.display="none";
     }
+    var addonInfo = Components.classes["@mozilla.org/extensions/manager;1"]
+             .getService(Components.interfaces.nsIExtensionManager)
+             .getItemForID("bonjourfoxy@andrew.tj.id.au");
+    document.getElementById("bfversion").innerHTML = addonInfo.version;
 }
 
 </script>
 
 </head>
 <body onload="localise()">
-<h1>BonjourFoxy <span class='beta'>Beta</span> 0.5.1</h2>
+<h1>BonjourFoxy <span class='beta'>Beta</span> <span id="bfversion"></span></h2>
 <div class='note'>
 <h3>Status Bar Icon</h3>
 <ul style='clear: left;'>

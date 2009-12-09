@@ -1,11 +1,8 @@
-pref("extensions.dsd.logToErrorConsole", false);
 pref("extensions.bonjourfoxy.sidebarOpen", "");
 pref("extensions.bonjourfoxy.alerts", true);
 pref("extensions.bonjourfoxy.statusbaricon", true);
 pref("extensions.bonjourfoxy.target", "current");
-pref("extensions.bonjourfoxy.rev", 0);
+pref("extensions.bonjourfoxy.rev", "");
 pref("extensions.bonjourfoxy.hts", 0);
-pref("extensions.bonjourfoxy.log.resolve", false);
-pref("extensions.bonjourfoxy.log.browse", false);
-pref("extensions.bonjourfoxy.log.enumerate", false);
-pref("extensions.bonjourfoxy.log.register", false);
+pref("extensions.bonjourfoxy.log.console", false);
+pref("extensions.bonjourfoxy.log.system", false);

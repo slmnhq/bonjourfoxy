@@ -3,19 +3,19 @@ window.addEventListener("load", FirstRunCheck, false);
 function FirstRunCheck()
 {
     var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-                .getService(Components.interfaces.nsIPrefService);
-    prefs = prefs.getBranch("extensions.bonjourfoxy.");
-    var curRev=prefs.getIntPref("rev", false);
-    var newRev=1;
+                .getService(Components.interfaces.nsIPrefService)
+                .getBranch("extensions.bonjourfoxy.");
+    var curRev = prefs.getCharPref("rev");
+    var newRev = Components.classes["@mozilla.org/extensions/manager;1"]
+                .getService(Components.interfaces.nsIExtensionManager)
+                .getItemForID("bonjourfoxy@andrew.tj.id.au")
+                .version;
     var now=new Date();
-    if(curRev!=newRev)   {
-        prefs.setIntPref("rev",newRev);
-        if (curRev==0)  {
-            prefs.setIntPref("hts", Math.round(now.getTime()/1000.0));
-            setTimeout("AddToolbarItem();", 1);
-            setTimeout('toggleSidebar("viewBonjourServices");',2);
-        }
-        setTimeout("OpenWelcome();", 1);
+    if(curRev != newRev) {
+        prefs.setCharPref("rev", newRev);
+        setTimeout(AddToolbarItem, 1);
+        setTimeout(function() { toggleSidebar("viewBonjourServices"); }, 2);
+        setTimeout(OpenWelcome, 1);
     }
 }
 
