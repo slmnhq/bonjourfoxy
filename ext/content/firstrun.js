@@ -8,7 +8,7 @@ function FirstRunCheck()
     var curRev = prefs.getCharPref("rev");
     var newRev = Components.classes["@mozilla.org/extensions/manager;1"]
                 .getService(Components.interfaces.nsIExtensionManager)
-                .getItemForID("bonjourfoxy@andrew.tj.id.au")
+                .getItemForID("bonjourfoxy@bonjourfoxy.net")
                 .version;
     var now=new Date();
     if(curRev != newRev) {

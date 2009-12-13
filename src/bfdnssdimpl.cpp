@@ -1,13 +1,11 @@
 #include "bfdnssdimpl.h"
 
 #include "nsComponentManagerUtils.h"  // for do_CreateInstance
-// #include "nsITimer.h"
 #include "nsServiceManagerUtils.h"    // for do_GetService
 #include "nsIConsoleService.h"
 #include "nsIPrefService.h"
 #include <errno.h>                    // For errno, EINTR
 #include <stdio.h>                    // for snprintf - applies on win32?
-// #include "nsStringAPI.h"
 
 #ifndef _WIN32
 #include <sys/time.h>
@@ -33,6 +31,8 @@ BFDNSSD::BFDNSSD()
 BFDNSSD::~BFDNSSD()
 {
   /* destructor code */
+  if (mStarted) DNSServiceRefDeallocate(mSdRef);
+  if (mTimer) mTimer->Cancel();
 }
 
 /* attribute long interfaceIndex; */
@@ -77,26 +77,25 @@ NS_IMETHODIMP BFDNSSD::SetAutorename(PRBool aAutorename)
 /* attribute AString serviceName; */
 NS_IMETHODIMP BFDNSSD::GetServiceName(nsAString & aServiceName)
 {
-    aServiceName = mServiceName;
+    aServiceName = mServiceName.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetServiceName(const nsAString & aServiceName)
 {
     if (mStarted == PR_FALSE)
-        mServiceName = aServiceName;
+        mServiceName.Assign(aServiceName);
     return NS_OK;
 }
 
 /* attribute AString registrationType; */
 NS_IMETHODIMP BFDNSSD::GetRegistrationType(nsAString & aRegistrationType)
 {
-    aRegistrationType = mRegistrationType;
+    aRegistrationType = mRegistrationType.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetRegistrationType(const nsAString & aRegistrationType)
 {
     if (mStarted == PR_FALSE)
-        // mRegistrationType = nsAString(aRegistrationType);
         mRegistrationType.Assign(aRegistrationType);
     return NS_OK;
 }
@@ -104,26 +103,26 @@ NS_IMETHODIMP BFDNSSD::SetRegistrationType(const nsAString & aRegistrationType)
 /* attribute AString registrationDomain; */
 NS_IMETHODIMP BFDNSSD::GetRegistrationDomain(nsAString & aRegistrationDomain)
 {
-    aRegistrationDomain = mRegistrationDomain;
+    aRegistrationDomain = mRegistrationDomain.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetRegistrationDomain(const nsAString & aRegistrationDomain)
 {
     if (mStarted == PR_FALSE)
-        mRegistrationDomain = aRegistrationDomain;
+        mRegistrationDomain.Assign(aRegistrationDomain);
     return NS_OK;
 }
 
 /* attribute AString targetHost; */
 NS_IMETHODIMP BFDNSSD::GetTargetHost(nsAString & aTargetHost)
 {
-    aTargetHost = mTargetHost;
+    aTargetHost = mTargetHost.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetTargetHost(const nsAString & aTargetHost)
 {
     if (mStarted == PR_FALSE)
-        mTargetHost = aTargetHost;
+        mTargetHost.Assign(aTargetHost);
     return NS_OK;
 }
 
@@ -143,26 +142,26 @@ NS_IMETHODIMP BFDNSSD::SetTargetPort(PRInt32 aTargetPort)
 /* attribute AString txtRecordKey; */
 NS_IMETHODIMP BFDNSSD::GetTxtRecordKey(nsAString & aTxtRecordKey)
 {
-    aTxtRecordKey = mTxtRecordKey;
+    aTxtRecordKey = mTxtRecordKey.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetTxtRecordKey(const nsAString & aTxtRecordKey)
 {
     if (mStarted == PR_FALSE)
-        mTxtRecordKey = aTxtRecordKey;
+        mTxtRecordKey.Assign(aTxtRecordKey);
     return NS_OK;
 }
 
 /* attribute AString txtRecordValue; */
 NS_IMETHODIMP BFDNSSD::GetTxtRecordValue(nsAString & aTxtRecordValue)
 {
-    aTxtRecordValue = mTxtRecordValue;
+    aTxtRecordValue = mTxtRecordValue.get();
     return NS_OK;
 }
 NS_IMETHODIMP BFDNSSD::SetTxtRecordValue(const nsAString & aTxtRecordValue)
 {
     if (mStarted == PR_FALSE)
-        mTxtRecordValue = aTxtRecordValue;
+        mTxtRecordValue.Assign(aTxtRecordValue);
     return NS_OK;
 }
 
@@ -247,16 +246,12 @@ NS_IMETHODIMP BFDNSSD::SetBrowseCallback(BFIBrowseCallback * aBrowseCallback)
 NS_IMETHODIMP BFDNSSD::Browse()
 {
     Log(ToNewUnicode(NS_LITERAL_STRING("Component Started Browse")));
-    /*
     if (!mBrowseCallback) return NS_ERROR_FAILURE;
     if (mStarted) return NS_ERROR_FAILURE;
-    */
     mStarted = PR_TRUE;
     DNSServiceErrorType err = kDNSServiceErr_Unknown;
     err = DNSServiceBrowse(&mSdRef, 0, mInterfaceIndex, ToNewUTF8String(mRegistrationType), ToNewUTF8String(mRegistrationDomain), (DNSServiceBrowseReply) BrowseCallback, this);
     Log(ToNewUnicode(mRegistrationType));
-    printf("mRegistrationType: %s\n", NS_ConvertUTF16toUTF8(mRegistrationType).get());
-    printf("err: %d\n", err);
     if (err != kDNSServiceErr_NoError) return NS_ERROR_FAILURE;
     StartTimer();
     return NS_OK;
@@ -371,7 +366,6 @@ void DNSSD_API BFDNSSD::ResolveCallback(
             }
             self->mResolveCallback->Callback(0, inInterfaceIndex, oHostname, oPort, oTxtKey, oTxtValue);
         }
-        DNSServiceRefDeallocate(self->mSdRef);
     }
     else
     {
@@ -406,11 +400,11 @@ NS_IMETHODIMP BFDNSSD::Register()
     DNSServiceFlags flags = 0;
     if (mAutorename == PR_FALSE)
     {
-        flags = kDNSServiceFlagsNoAutoRename;
+        flags |= kDNSServiceFlagsNoAutoRename;
     }
     Opaque16 registerPort = { { mTargetPort >> 8, mTargetPort & 0xFF } };
     TXTRecordRef txt;
-    TXTRecordCreate(&txt,0,0);      
+    TXTRecordCreate(&txt,0,0);
     void* tTxtRecordValue = ToNewUTF8String(mTxtRecordValue);
     err = TXTRecordSetValue(&txt, ToNewUTF8String(mTxtRecordKey), mTxtRecordValue.Length(), tTxtRecordValue); 
     if (err != kDNSServiceErr_NoError) return NS_ERROR_FAILURE;
@@ -462,14 +456,17 @@ void DNSSD_API BFDNSSD::RegisterCallback(
 
 void BFDNSSD::Log(const PRUnichar* message)
 {
+    printf("%s\n", NS_ConvertUTF16toUTF8(message).get());
     nsCOMPtr<nsIPrefService> prefService = do_GetService("@mozilla.org/preferences-service;1");
     if (prefService)
     {
         nsCOMPtr<nsIPrefBranch> prefs;
-        prefService->GetBranch("extensions.bonjourfoxy.", getter_AddRefs(prefs));
-        PRBool doLog;
-        prefs->GetBoolPref("log", &doLog);
-        if (doLog == PR_TRUE)
+        prefService->GetBranch("extensions.bonjourfoxy.log", getter_AddRefs(prefs));
+        PRBool doConsoleLog;
+        PRBool doSystemLog;
+        prefs->GetBoolPref("console", &doConsoleLog);
+        prefs->GetBoolPref("system", &doSystemLog);
+        if (doConsoleLog == PR_TRUE)
         {
             nsCOMPtr<nsIConsoleService> consoleService = do_GetService("@mozilla.org/consoleservice;1");
             if (consoleService)
@@ -477,21 +474,24 @@ void BFDNSSD::Log(const PRUnichar* message)
                 consoleService->LogStringMessage(message);
             }
         }
+        if (doSystemLog == PR_TRUE)
+        {
+            printf("%s\n", NS_ConvertUTF16toUTF8(message).get());
+        }
     }
 }
 
-nsresult BFDNSSD::StartTimer()
+void BFDNSSD::StartTimer()
 {
     mTimer = do_CreateInstance("@mozilla.org/timer;1");
     if (!mTimer)
     {
         Log(ToNewUnicode(NS_LITERAL_STRING("Component was unable to get an instance of Timer")));
-        return NS_ERROR_OUT_OF_MEMORY;
     }
     else
     {
         Log(ToNewUnicode(NS_LITERAL_STRING("Component StartTimer got a Timer instance")));
-        return mTimer->InitWithFuncCallback(this->TimeoutHandler,
+        mTimer->InitWithFuncCallback(this->TimeoutHandler,
                                             this,
                                             100, 
                                             nsITimer::TYPE_REPEATING_SLACK);

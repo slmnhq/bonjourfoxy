@@ -26,7 +26,7 @@ public:
 private:
   ~BFDNSSD();
   void PollSelect(void *inContext);
-  nsresult StartTimer();
+  void StartTimer();
   void Log(const PRUnichar* message);
   nsCOMPtr<nsITimer>                mTimer;
   static void TimeoutHandler(nsITimer *aTimer, void *aClosure);
