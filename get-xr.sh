@@ -1,6 +1,6 @@
 #!/bin/sh
 rel=$1
-out=~/Projects/bonjourfoxy/sdk/archive
+out=`dirname $0`/sdk/archive
 pre=xulrunner-${rel}.en-US
 win32=${pre}.win32.sdk.zip
 linux=${pre}.linux-i686.sdk.tar.bz2
