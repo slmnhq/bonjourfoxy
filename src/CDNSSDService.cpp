@@ -23,6 +23,11 @@
 #include <stdio.h>
 
 
+/* To support XULRunner 1.9.0.x */
+#ifndef NS_OUTPARAM
+#define NS_OUTPARAM
+#endif
+
 NS_IMPL_ISUPPORTS2(CDNSSDService, IDNSSDService, nsIRunnable)
 
 CDNSSDService::CDNSSDService()
