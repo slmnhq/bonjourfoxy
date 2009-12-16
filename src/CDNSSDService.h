@@ -44,7 +44,7 @@ public:
 	NS_DECL_NSIRUNNABLE
 
 	CDNSSDService();
-	CDNSSDService( DNSServiceRef mainRef, nsISupports * listener );
+	CDNSSDService( nsISupports * listener );
 
 	virtual ~CDNSSDService();
 	
@@ -88,11 +88,13 @@ private:
 	SetupNotifications();
 	
 	void
+	Test();
+	
+	void
 	Cleanup();
 
 	PRThreadPool	*	m_threadPool;
-	DNSServiceRef		m_mainRef;
-	DNSServiceRef		m_subRef;
+	DNSServiceRef		m_sdRef;
 	nsISupports		*	m_listener;
 	PRFileDesc		*	m_fileDesc;
 	PRJobIoDesc			m_iod;

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *	   http://www.apache.org/licenses/LICENSE-2.0
  * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,48 +33,18 @@ NS_IMPL_ISUPPORTS2(CDNSSDService, IDNSSDService, nsIRunnable)
 CDNSSDService::CDNSSDService()
 :
 	m_threadPool( NULL ),
-	m_mainRef( NULL ),
-	m_subRef( NULL ),
+	m_sdRef( NULL ),
 	m_listener( NULL ),
 	m_fileDesc( NULL ),
 	m_job( NULL )
 {
-	nsresult err;
-
-	if ( DNSServiceCreateConnection( &m_mainRef ) != kDNSServiceErr_NoError )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-
-	if ( ( m_fileDesc = PR_ImportTCPSocket( DNSServiceRefSockFD( m_mainRef ) ) ) == NULL )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-
-	if ( ( m_threadPool = PR_CreateThreadPool( 1, 1, 8192 ) ) == NULL )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-	
-	err = SetupNotifications();
-
-exit:
-
-	if ( err != NS_OK )
-	{
-		Cleanup();
-	}
 }
 
 
-CDNSSDService::CDNSSDService( DNSServiceRef ref, nsISupports * listener )
+CDNSSDService::CDNSSDService( nsISupports * listener )
 :
 	m_threadPool( NULL ),
-	m_mainRef( ref ),
-	m_subRef( ref ),
+	m_sdRef( NULL ),
 	m_listener( listener ),
 	m_fileDesc( NULL ),
 	m_job( NULL )
@@ -91,33 +61,31 @@ CDNSSDService::~CDNSSDService()
 void
 CDNSSDService::Cleanup()
 {
-	if ( m_job )
+	if ( m_listener != NULL )
 	{
-		PR_CancelJob( m_job );
-		m_job = NULL;
-	}
-
-	if ( m_threadPool != NULL )
-	{
-		PR_ShutdownThreadPool( m_threadPool );
-		m_threadPool = NULL;
-	}
-	
-	if ( m_fileDesc != NULL )
-	{
-		PR_Close( m_fileDesc );
-		m_fileDesc = NULL;
-	}
-	
-	if ( m_subRef )
-	{
-		DNSServiceRefDeallocate( m_subRef );
-		m_subRef = NULL;
-	}
-	else if ( m_mainRef )
-	{
-		DNSServiceRefDeallocate( m_mainRef );
-		m_mainRef = NULL;
+		if ( m_job )
+		{
+			PR_CancelJob( m_job );
+			m_job = NULL;
+		}
+		
+		if ( m_threadPool != NULL )
+		{
+			PR_ShutdownThreadPool( m_threadPool );
+			m_threadPool = NULL;
+		}
+		
+		if ( m_fileDesc != NULL )
+		{
+			PR_Close( m_fileDesc );
+			m_fileDesc = NULL;
+		}
+		
+		if ( m_sdRef )
+		{
+			DNSServiceRefDeallocate( m_sdRef );
+			m_sdRef = NULL;
+		}
 	}
 }
 
@@ -135,7 +103,6 @@ CDNSSDService::SetupNotifications()
 	return ( m_job ) ? NS_OK : NS_ERROR_FAILURE;
 }
 
-
 /* IDNSSDService browse (in long interfaceIndex, in AString regtype, in AString domain, in IDNSSDBrowseListener listener); */
 NS_IMETHODIMP
 CDNSSDService::Browse(PRInt32 interfaceIndex, const nsAString & regtype, const nsAString & domain, IDNSSDBrowseListener *listener, IDNSSDService **_retval NS_OUTPARAM)
@@ -146,40 +113,54 @@ CDNSSDService::Browse(PRInt32 interfaceIndex, const nsAString & regtype, const n
 
 	*_retval = NULL;
 	
-	if ( !m_mainRef )
+	if (m_listener == NULL)
 	{
-		err = NS_ERROR_NOT_AVAILABLE;
-		goto exit;
+		try
+		{
+			service = new CDNSSDService( listener );
+		}
+		catch ( ... )
+		{
+			service = NULL;
+		}
+		
+		if ( service == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		service->Browse(interfaceIndex, regtype, domain, listener, _retval);
+		listener->AddRef();
+		service->AddRef();
 	}
+	else
+	{
+		dnsErr = DNSServiceBrowse( &m_sdRef, 0, interfaceIndex, NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceBrowseReply ) BrowseReply, this );
+		if ( dnsErr != kDNSServiceErr_NoError )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_fileDesc = PR_ImportTCPSocket( DNSServiceRefSockFD( m_sdRef ) ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_threadPool = PR_CreateThreadPool( 1, 1, 8192 ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		err = SetupNotifications();
+		if ( err != NS_OK)
+		{
+		    goto exit;
+		}
+		*_retval = service;
 
-	try
-	{
-		service = new CDNSSDService( m_mainRef, listener );
-	}
-	catch ( ... )
-	{
-		service = NULL;
 	}
 	
-	if ( service == NULL )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-	
-	dnsErr = DNSServiceBrowse( &service->m_subRef, kDNSServiceFlagsShareConnection, interfaceIndex, NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceBrowseReply ) BrowseReply, service );
-	
-	if ( dnsErr != kDNSServiceErr_NoError )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-	
-	listener->AddRef();
-	service->AddRef();
-	*_retval = service;
-	err = NS_OK;
-	
+
 exit:
 
 	if ( err && service )
@@ -196,54 +177,67 @@ exit:
 NS_IMETHODIMP
 CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, IDNSSDResolveListener *listener, IDNSSDService **_retval NS_OUTPARAM)
 {
-    CDNSSDService	*	service;
-	DNSServiceErrorType dnsErr;
-	nsresult			err;
+	CDNSSDService	*	service	= NULL;
+	DNSServiceErrorType dnsErr	= 0;
+	nsresult			err		= 0;
 
 	*_retval = NULL;
-	
-	if ( !m_mainRef )
-	{
-		err = NS_ERROR_NOT_AVAILABLE;
-		goto exit;
-	}
 
-	try
+	if (m_listener == NULL)
 	{
-		service = new CDNSSDService( m_mainRef, listener );
+		try
+		{
+			service = new CDNSSDService( listener );
+		}
+		catch ( ... )
+		{
+			service = NULL;
+		}
+		
+		if ( service == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		service->Resolve(interfaceIndex, name, regtype, domain, listener, _retval);
+		listener->AddRef();
+		service->AddRef();
 	}
-	catch ( ... )
+	else
 	{
-		service = NULL;
+		dnsErr = DNSServiceResolve( &m_sdRef, 0, interfaceIndex, NS_ConvertUTF16toUTF8( name ).get(), NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceResolveReply ) ResolveReply, this);
+		if ( dnsErr != kDNSServiceErr_NoError )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_fileDesc = PR_ImportTCPSocket( DNSServiceRefSockFD( m_sdRef ) ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_threadPool = PR_CreateThreadPool( 1, 1, 8192 ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		
+		err = SetupNotifications();
+		if ( err != NS_OK)
+		{
+		    goto exit;
+		}
+		*_retval = service;
 	}
 	
-	if ( service == NULL )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
 
-	dnsErr = DNSServiceResolve( &service->m_subRef, kDNSServiceFlagsShareConnection, interfaceIndex, NS_ConvertUTF16toUTF8( name ).get(), NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceResolveReply ) ResolveReply, service );
-	
-	if ( dnsErr != kDNSServiceErr_NoError )
-	{
-		err = NS_ERROR_FAILURE;
-		goto exit;
-	}
-	
-	listener->AddRef();
-	service->AddRef();
-	*_retval = service;
-	err = NS_OK;
-	
 exit:
-	
+
 	if ( err && service )
 	{
 		delete service;
 		service = NULL;
 	}
-	
 	return err;
 }
 
@@ -252,10 +246,10 @@ exit:
 NS_IMETHODIMP
 CDNSSDService::Stop()
 {
-    if ( m_subRef )
+	if ( m_sdRef )
 	{
-		DNSServiceRefDeallocate( m_subRef );
-		m_subRef = NULL;
+		DNSServiceRefDeallocate( m_sdRef );
+		m_sdRef = NULL;
 	}
 	
 	return NS_OK;
@@ -276,11 +270,11 @@ CDNSSDService::Run()
 {
 	nsresult err;
 	
-	NS_PRECONDITION( m_mainRef != NULL, "m_mainRef is NULL" );
+	NS_PRECONDITION( m_sdRef != NULL, "m_sdRef is NULL" );
 
 	m_job = NULL;
 
-	if ( DNSServiceProcessResult( m_mainRef ) == kDNSServiceErr_NoError )
+	if ( DNSServiceProcessResult( m_sdRef ) == kDNSServiceErr_NoError )
 	{
 		err = SetupNotifications();
 	}
@@ -299,7 +293,7 @@ CDNSSDService::BrowseReply
 		DNSServiceRef		sdRef,
 		DNSServiceFlags		flags,
 		uint32_t			interfaceIndex,
-		DNSServiceErrorType	errorCode,
+		DNSServiceErrorType errorCode,
 		const char		*	serviceName,
 		const char		*	regtype,
 		const char		*	replyDomain,
@@ -307,7 +301,7 @@ CDNSSDService::BrowseReply
 		)
 {
 	CDNSSDService * self = ( CDNSSDService* ) context;
-
+	
 	// This should never be NULL, but let's be defensive.
 	
 	if ( self != NULL )
@@ -335,12 +329,11 @@ CDNSSDService::ResolveReply
 		const char			*	hosttarget,
 		uint16_t				port,
 		uint16_t				txtLen,
-		const unsigned char	*	txtRecord,
+		const unsigned char *	txtRecord,
 		void				*	context
 		)
 {
 	CDNSSDService * self = ( CDNSSDService* ) context;
-	
 	// This should never be NULL, but let's be defensive.
 	
 	if ( self != NULL )
