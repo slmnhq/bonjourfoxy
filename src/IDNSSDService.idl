@@ -32,7 +32,7 @@ interface IDNSSDBrowseListener : nsISupports
 interface IDNSSDResolveListener : nsISupports
 {
 	void
-	onResolve( in IDNSSDService service, in long interfaceIndex, in long error, in AString fullname, in AString host, in short port, in AString path );
+	onResolve( in IDNSSDService service, in long interfaceIndex, in long error, in AString fullname, in AString host, in short port, in AString key, in AString value );
 };
 
 
@@ -43,7 +43,7 @@ interface IDNSSDService : nsISupports
 	browse( in long interfaceIndex, in AString regtype, in AString domain, in IDNSSDBrowseListener listener );
 
 	IDNSSDService
-	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in IDNSSDResolveListener listener );
+	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString key, in IDNSSDResolveListener listener );
 
 	void
 	stop();

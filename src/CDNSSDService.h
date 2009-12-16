@@ -25,6 +25,7 @@
 #include "nsIThread.h"
 #include "nsIRunnable.h"
 #include "prtpool.h"
+#include "nsStringAPI.h"
 #include <dns_sd.h>
 #include <stdio.h>
 #include <string>
@@ -99,6 +100,7 @@ private:
 	PRFileDesc		*	m_fileDesc;
 	PRJobIoDesc			m_iod;
 	PRJob			*	m_job;
+	nsString			m_svcKey;
 };
 
 

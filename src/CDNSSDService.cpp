@@ -175,7 +175,7 @@ exit:
 
 /* IDNSSDService resolve (in long interfaceIndex, in AString name, in AString regtype, in AString domain, in IDNSSDResolveListener listener); */
 NS_IMETHODIMP
-CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, IDNSSDResolveListener *listener, IDNSSDService **_retval NS_OUTPARAM)
+CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, const nsAString & key, IDNSSDResolveListener *listener, IDNSSDService **_retval NS_OUTPARAM)
 {
 	CDNSSDService	*	service	= NULL;
 	DNSServiceErrorType dnsErr	= 0;
@@ -199,12 +199,13 @@ CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsA
 			err = NS_ERROR_FAILURE;
 			goto exit;
 		}
-		service->Resolve(interfaceIndex, name, regtype, domain, listener, _retval);
+		service->Resolve(interfaceIndex, name, regtype, domain, key, listener, _retval);
 		listener->AddRef();
 		service->AddRef();
 	}
 	else
 	{
+		m_svcKey.Assign( key );
 		dnsErr = DNSServiceResolve( &m_sdRef, 0, interfaceIndex, NS_ConvertUTF16toUTF8( name ).get(), NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceResolveReply ) ResolveReply, this);
 		if ( dnsErr != kDNSServiceErr_NoError )
 		{
@@ -344,28 +345,28 @@ CDNSSDService::ResolveReply
 
 		if ( listener != NULL )
 		{
-			std::string		path = "";
-			const void	*	value = NULL;
-			uint8_t			valueLen = 0;
+			std::string		value = "";
+			const void	*	txtValue = NULL;
+			uint8_t			txtValueLen = 0;
 
-			value = TXTRecordGetValuePtr( txtLen, txtRecord, "path", &valueLen );
+			txtValue = TXTRecordGetValuePtr( txtLen, txtRecord, NS_ConvertUTF16toUTF8 ( self->m_svcKey ).get(), &txtValueLen );
 			
-			if ( value && valueLen )
+			if ( txtValue && txtValueLen )
 			{
 				char * temp;
 				
-				temp = new char[ valueLen + 1 ];
+				temp = new char[ txtValueLen + 1 ];
 				
 				if ( temp )
 				{
-					memset( temp, 0, valueLen + 1 );
-					memcpy( temp, value, valueLen );
-					path = temp;
+					memset( temp, 0, txtValueLen + 1 );
+					memcpy( temp, txtValue, txtValueLen );
+					value = temp;
 					delete [] temp;
 				}
 			}
 
-			listener->OnResolve( self, interfaceIndex, errorCode, NS_ConvertUTF8toUTF16( fullname ), NS_ConvertUTF8toUTF16( hosttarget ) , ntohs( port ), NS_ConvertUTF8toUTF16( path.c_str() ) );
+			listener->OnResolve( self, interfaceIndex, errorCode, NS_ConvertUTF8toUTF16( fullname ), NS_ConvertUTF8toUTF16( hosttarget ) , ntohs( port ), self->m_svcKey, NS_ConvertUTF8toUTF16( value.c_str() ) );
 		}
 	}
 }
