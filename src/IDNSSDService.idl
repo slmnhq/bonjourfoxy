@@ -20,7 +20,7 @@
 interface IDNSSDService;
 
 
-[scriptable, function, uuid(27346495-A1ED-458A-A5BC-587DF9A26B4F)]
+[scriptable, function, uuid(E8E81354-2BF5-41BB-BC61-6AED6C88E017)]
 interface IDNSSDBrowseListener : nsISupports
 {
 	void
@@ -28,7 +28,7 @@ interface IDNSSDBrowseListener : nsISupports
 };
 
 
-[scriptable, function, uuid(6620E18F-47F3-47C6-941F-126A5FD4FCF7)]
+[scriptable, function, uuid(4BC9C5DC-0AC4-4BD5-ABDD-75B77947EEA0)]
 interface IDNSSDResolveListener : nsISupports
 {
 	void
@@ -36,7 +36,7 @@ interface IDNSSDResolveListener : nsISupports
 };
 
 
-[scriptable, uuid(3A3539FF-F8D8-40B4-8D02-5EA73C51FA12)]
+[scriptable, uuid(7E2EAF8E-FBBE-460E-B838-69D2389BA46F)]
 interface IDNSSDService : nsISupports
 {
 	IDNSSDService

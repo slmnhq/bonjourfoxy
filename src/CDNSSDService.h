@@ -31,10 +31,9 @@
 #include <string>
 
 
-#define CDNSSDSERVICE_CONTRACTID "@apple.com/DNSSDService;1"
+#define CDNSSDSERVICE_CONTRACTID "@bonjourfoxy.net/DNSSDService;1"
 #define CDNSSDSERVICE_CLASSNAME "CDNSSDService"
-#define CDNSSDSERVICE_CID { 0x944ED267, 0x465A, 0x4989, { 0x82, 0x72, 0x7E, 0xE9, 0x28, 0x6C, 0x99, 0xA5 } }
-
+#define CDNSSDSERVICE_CID { 0xe8e81354, 0x2bf5, 0x41bb, { 0xbc, 0x61, 0x6a, 0xed, 0x6c, 0x88, 0xe0, 0x17 } }
 
 /* Header file */
 class CDNSSDService : public IDNSSDService, nsIRunnable
