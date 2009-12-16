@@ -36,6 +36,13 @@ interface IDNSSDResolveListener : nsISupports
 };
 
 
+[scriptable, function, uuid(3984E0C8-5F08-4486-A3CC-6185FA4CB326)]
+interface IDNSSDRegisterListener : nsISupports
+{
+	void
+	onRegister( in IDNSSDService service, in boolean add, in long error, in AString serviceName, in AString regtype, in AString domain );
+};
+
 [scriptable, uuid(7E2EAF8E-FBBE-460E-B838-69D2389BA46F)]
 interface IDNSSDService : nsISupports
 {
@@ -43,7 +50,10 @@ interface IDNSSDService : nsISupports
 	browse( in long interfaceIndex, in AString regtype, in AString domain, in IDNSSDBrowseListener listener );
 
 	IDNSSDService
-	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString key, in IDNSSDResolveListener listener );
+	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString txtKey, in IDNSSDResolveListener listener );
+
+	IDNSSDService
+	register( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString targetHost, in short targetPort, in AString txtKey, in AString txtValue, in IDNSSDRegisterListener listener );
 
 	void
 	stop();

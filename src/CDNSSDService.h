@@ -78,6 +78,18 @@ private:
 		void				*	context
 		);
 		
+	static void DNSSD_API
+	RegisterReply
+		(
+		DNSServiceRef			sdRef,
+		DNSServiceFlags			flags,
+		DNSServiceErrorType		inErrorCode,
+		const char			*	inName, 
+		const char			*	inRegType,
+		const char			*	inRegDomain,
+		void				*	context
+		);
+		
 	static void
 	Read
 		(
@@ -99,7 +111,8 @@ private:
 	PRFileDesc		*	m_fileDesc;
 	PRJobIoDesc			m_iod;
 	PRJob			*	m_job;
-	nsString			m_svcKey;
+
+	nsString			m_svcTxtKey;
 };
 
 

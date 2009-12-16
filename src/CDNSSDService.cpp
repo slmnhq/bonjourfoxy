@@ -205,7 +205,7 @@ CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsA
 	}
 	else
 	{
-		m_svcKey.Assign( key );
+		m_svcTxtKey.Assign( key );
 		dnsErr = DNSServiceResolve( &m_sdRef, 0, interfaceIndex, NS_ConvertUTF16toUTF8( name ).get(), NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), ( DNSServiceResolveReply ) ResolveReply, this);
 		if ( dnsErr != kDNSServiceErr_NoError )
 		{
@@ -242,17 +242,88 @@ exit:
 	return err;
 }
 
+/* IDNSSDService register (in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString key, in AString value, in IDNSSDRegisterListener listener); */
+NS_IMETHODIMP
+CDNSSDService::Register(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, const nsAString & targetHost, PRInt16 targetPort, const nsAString & txtKey, const nsAString & txtValue, IDNSSDRegisterListener *listener, IDNSSDService **_retval NS_OUTPARAM)
+{
+	CDNSSDService	*	service	= NULL;
+	DNSServiceErrorType dnsErr	= 0;
+	nsresult			err		= 0;
+
+	*_retval = NULL;
+
+	if (m_listener == NULL)
+	{
+		try
+		{
+			service = new CDNSSDService( listener );
+		}
+		catch ( ... )
+		{
+			service = NULL;
+		}
+		
+		if ( service == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		service->Register(interfaceIndex, name, regtype, domain, targetHost, targetPort, txtKey, txtValue, listener, _retval);
+		listener->AddRef();
+		service->AddRef();
+	}
+	else
+	{
+		TXTRecordRef txt;
+		TXTRecordCreate(&txt,0,0);
+		void* txtRecordValue = ToNewUTF8String( txtValue );
+		dnsErr = TXTRecordSetValue(&txt, NS_ConvertUTF16toUTF8( txtKey ).get(), txtValue.Length(), txtRecordValue);
+		if ( dnsErr != kDNSServiceErr_NoError )
+		{
+		    err = NS_ERROR_FAILURE;
+		    goto exit;
+        }
+		dnsErr = DNSServiceRegister( &m_sdRef, interfaceIndex, 0, NS_ConvertUTF16toUTF8( name ).get(), NS_ConvertUTF16toUTF8( regtype ).get(), NS_ConvertUTF16toUTF8( domain ).get(), NS_ConvertUTF16toUTF8( targetHost ).get(), htons(targetPort), TXTRecordGetLength(&txt), TXTRecordGetBytesPtr(&txt), ( DNSServiceRegisterReply ) RegisterReply, this);
+		if ( dnsErr != kDNSServiceErr_NoError )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_fileDesc = PR_ImportTCPSocket( DNSServiceRefSockFD( m_sdRef ) ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		if ( ( m_threadPool = PR_CreateThreadPool( 1, 1, 8192 ) ) == NULL )
+		{
+			err = NS_ERROR_FAILURE;
+			goto exit;
+		}
+		
+		err = SetupNotifications();
+		if ( err != NS_OK)
+		{
+		    goto exit;
+		}
+		*_retval = service;
+	}
+	
+
+exit:
+
+	if ( err && service )
+	{
+		delete service;
+		service = NULL;
+	}
+	return err;
+}
 
 /* void stop (); */
 NS_IMETHODIMP
 CDNSSDService::Stop()
 {
-	if ( m_sdRef )
-	{
-		DNSServiceRefDeallocate( m_sdRef );
-		m_sdRef = NULL;
-	}
-	
+	Cleanup();
 	return NS_OK;
 }
 
@@ -349,7 +420,7 @@ CDNSSDService::ResolveReply
 			const void	*	txtValue = NULL;
 			uint8_t			txtValueLen = 0;
 
-			txtValue = TXTRecordGetValuePtr( txtLen, txtRecord, NS_ConvertUTF16toUTF8 ( self->m_svcKey ).get(), &txtValueLen );
+			txtValue = TXTRecordGetValuePtr( txtLen, txtRecord, NS_ConvertUTF16toUTF8 ( self->m_svcTxtKey ).get(), &txtValueLen );
 			
 			if ( txtValue && txtValueLen )
 			{
@@ -366,8 +437,36 @@ CDNSSDService::ResolveReply
 				}
 			}
 
-			listener->OnResolve( self, interfaceIndex, errorCode, NS_ConvertUTF8toUTF16( fullname ), NS_ConvertUTF8toUTF16( hosttarget ) , ntohs( port ), self->m_svcKey, NS_ConvertUTF8toUTF16( value.c_str() ) );
+			listener->OnResolve( self, interfaceIndex, errorCode, NS_ConvertUTF8toUTF16( fullname ), NS_ConvertUTF8toUTF16( hosttarget ) , ntohs( port ), self->m_svcTxtKey, NS_ConvertUTF8toUTF16( value.c_str() ) );
 		}
 	}
 }
 
+void DNSSD_API
+CDNSSDService::RegisterReply
+		(
+		DNSServiceRef			sdRef,
+		DNSServiceFlags			flags,
+		DNSServiceErrorType		errorCode,
+		const char			*	serviceName, 
+		const char			*	regtype,
+		const char			*	replyDomain,
+		void				*	context
+		)
+{
+	CDNSSDService * self = ( CDNSSDService* ) context;
+	// This should never be NULL, but let's be defensive.
+	
+	if ( self != NULL )
+	{
+		IDNSSDRegisterListener * listener = ( IDNSSDRegisterListener* ) self->m_listener;
+		
+		// Same for this
+
+		if ( listener != NULL )
+		{
+			
+			listener->OnRegister( self, ( flags & kDNSServiceFlagsAdd ) ? PR_TRUE : PR_FALSE, errorCode, NS_ConvertUTF8toUTF16( serviceName ), NS_ConvertUTF8toUTF16( regtype), NS_ConvertUTF8toUTF16( replyDomain ) );
+		}
+	}
+}
