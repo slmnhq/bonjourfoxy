@@ -156,7 +156,7 @@ CDNSSDService::Browse(PRInt32 interfaceIndex, const nsAString & regtype, const n
 		{
 		    goto exit;
 		}
-		*_retval = service;
+		*_retval = this;
 
 	}
 	
@@ -228,7 +228,7 @@ CDNSSDService::Resolve(PRInt32 interfaceIndex, const nsAString & name, const nsA
 		{
 		    goto exit;
 		}
-		*_retval = service;
+		*_retval = this;
 	}
 	
 
@@ -305,7 +305,7 @@ CDNSSDService::Register(PRInt32 interfaceIndex, const nsAString & name, const ns
 		{
 		    goto exit;
 		}
-		*_retval = service;
+		*_retval = this;
 	}
 	
 
