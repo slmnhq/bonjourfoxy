@@ -10,7 +10,7 @@ Folder Structure
 * ``src`` - XPCOM component source code
 * ``src/#.#`` - Component intermediary/output folder
 * ``scratch`` - Staging folder
-* ``sdk/archive`` - XULRunner SDK archive
+* ``sdk/archive`` - XULRunner SDK archives
 * ``sdk/#.#`` - The active XULRunner SDK for a given release
 
 Obtaining the XULRunner SDK
@@ -47,6 +47,9 @@ Make targets:
 * ``xpcom`` - build components for the current platform
 * ``dir`` - copies the extension skeleton and any built XPCOM components into the ``scratch`` folder and updates the install.rdf
 * ``xpi`` - creates an XPI from the contents of the ``scratch`` directory
+* ``nixdir`` - build nix source folder
+* ``nixball`` - build nix source tarball
+* ``all`` - build a full release
 * ``clean`` - clean up
 
 Variables:
@@ -64,4 +67,4 @@ Create a file called 'bonjourfoxy@bonjourfoxy.net' in your Firefox Profile's ext
 What about Linux/BSD?
 ---------------------
 
-BonjourFoxy can be built against Avahi's Bonjour compatibility layer though at present no build script is included. If you'd like to package BonjourFoxy for a particular OS feel free to contact me.
+BonjourFoxy can be built against Avahi's Bonjour compatibility layer. At the moment this can be done by first building the nixdir target and then running make again from nixdir folder  (as I'm only going to do source releases for *nix it's convenient for me). The Makefile produced by nixdir is sourced from ``src/Makefile.nix`` and has only been briefly tested on Ubuntu, Debian and Fedora. If you'd like to package BonjourFoxy for a particular OS feel free to contact me.
