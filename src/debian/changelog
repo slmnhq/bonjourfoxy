@@ -1,0 +1,8 @@
+bonjourfoxy (0.5.1-1) unstable; urgency=low
+
+  * Initial release.
+  * Added a debian.inc distribution-specific include for Makefile
+  * Added a install target to Makefile
+
+ -- Lionel Ains <lains@gmx.net>  Mon, 07 Dec 2009 22:51:15 +0100
+

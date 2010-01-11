@@ -1,0 +1,2 @@
+usr/lib/iceweasel/components/*.so*
+usr/lib/iceweasel/components/*.xpt

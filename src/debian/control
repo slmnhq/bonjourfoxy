@@ -1,0 +1,19 @@
+Source: bonjourfoxy
+Priority: extra
+Maintainer: Lionel Ains <lains@gmx.net>
+Build-Depends: debhelper (>= 7), coreutils, binutils,
+               xulrunner-dev (>= 1.9), libnspr4-dev, libavahi-compat-libdnssd-dev
+Standards-Version: 3.7.3
+Section: libs
+Homepage: http://www.bonjourfoxy.net
+
+Package: iceweasel-libbonjourfoxy
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, xulrunner-1.9 (>= 1.9), libnspr4-0d,
+         iceweasel (>= 3.0), libavahi-compat-libdnssd1
+Suggests: avahi-ui-utils, avahi-utils
+Description: Iceweasel Library for the Bonjourfoxy extension
+ shared library required by the Bonjourfoxy Iceweasel extension. It allows
+ the extension to use the Avahi library for services discovery using
+ the Bonjour protocol
