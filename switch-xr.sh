@@ -12,9 +12,8 @@ basedir=`dirname $0`
 archivedir=${basedir}/sdk/archive
 outbase=${basedir}/sdk/${ff_rel}
 pre=xulrunner-${sdk_rel}.en-US
-platforms="win32 linux macppc maci386"
+platforms="win32 macppc maci386"
 win32=${pre}.win32.sdk.zip
-linux=${pre}.linux-i686.sdk.tar.bz2
 macppc=${pre}.mac-powerpc.sdk.tar.bz2
 maci386=${pre}.mac-i386.sdk.tar.bz2
 for platform in ${platforms}; do

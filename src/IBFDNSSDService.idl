@@ -1,0 +1,69 @@
+/* -*- Mode: C; tab-width: 4 -*-
+ *
+ * Copyright (c) 2009 Apple Computer, Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#include "nsISupports.idl"
+
+interface IBFDNSSDService;
+
+[scriptable, function, uuid(4DF775FB-D9DF-45E8-8574-D09F7C30197C)]
+interface IBFDNSSDEnumerateListener : nsISupports
+{
+	void
+	onEnumerate( in IBFDNSSDService service, in boolean add, in long interfaceIndex, in long error, in boolean type, in AString domain );
+};
+
+[scriptable, function, uuid(E8E81354-2BF5-41BB-BC61-6AED6C88E017)]
+interface IBFDNSSDBrowseListener : nsISupports
+{
+	void
+	onBrowse( in IBFDNSSDService service, in boolean add, in long interfaceIndex, in long error, in AString serviceName, in AString regtype, in AString domain );
+};
+
+
+[scriptable, function, uuid(4BC9C5DC-0AC4-4BD5-ABDD-75B77947EEA0)]
+interface IBFDNSSDResolveListener : nsISupports
+{
+	void
+	onResolve( in IBFDNSSDService service, in long interfaceIndex, in long error, in AString fullname, in AString host, in short port, in AString key, in AString value );
+};
+
+
+[scriptable, function, uuid(3984E0C8-5F08-4486-A3CC-6185FA4CB326)]
+interface IBFDNSSDRegisterListener : nsISupports
+{
+	void
+	onRegister( in IBFDNSSDService service, in boolean add, in long error, in AString serviceName, in AString regtype, in AString domain );
+};
+
+[scriptable, uuid(7E2EAF8E-FBBE-460E-B838-69D2389BA46F)]
+interface IBFDNSSDService : nsISupports
+{
+	IBFDNSSDService
+	enumerate( in long interfaceIndex, in PRBool domainType, in IBFDNSSDEnumerateListener listener );
+
+	IBFDNSSDService
+	browse( in long interfaceIndex, in AString regtype, in AString domain, in IBFDNSSDBrowseListener listener );
+
+	IBFDNSSDService
+	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString txtKey, in IBFDNSSDResolveListener listener );
+
+	IBFDNSSDService
+	register( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString targetHost, in short targetPort, in AString txtKey, in AString txtValue, in IBFDNSSDRegisterListener listener );
+
+	void
+	stop();
+};

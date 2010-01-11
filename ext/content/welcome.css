@@ -1,0 +1,33 @@
+html {
+    background-color: #ffffff;
+    color: #000;
+    padding: 1em;
+    font-family: Helvetica, Arial;
+    line-height: 1.5em;
+}
+h1,h2 { padding: 0 10px 0 10px; }
+h3 { text-align: center; margin-bottom: 5px; padding-bottom: 3px; border-bottom: 1px solid #ccc; }
+a { color: #00c; }
+.beta {color: #c00; }
+table { width: 100%; }
+td.option {
+    height: 100%;
+    width: 33%;
+    padding: 0 10px 1.5em 10px;
+}
+td.option div.option {
+    height: 100%;
+    padding: 0 10px 4px 10px;
+    border: 1px solid #ccc;
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+}
+td.option div.option div.optdescription { border-bottom: 1px solid #ccc; margin-bottom: 0.5em; height: 10em; overflow: auto; }
+td.option div.option div.optbutton { text-align: center; }
+td.option div.option div.optbutton button { font-size: 1em; }
+p.c { text-align: center; }
+p.mt { padding: 0 10px 0 10px; font-size: 1.3em; }
+button#tbExample { -moz-appearance: toolbarbutton; border: none; padding: 0; margin: 0; }
+button#btnAlertExample { font-size: 0.7em; }

@@ -4,11 +4,12 @@
 <!ENTITY bonjourfoxyToolbar.tooltip "Toggle BonjourFoxy Sidebar">
 <!ENTITY bonjourfoxyMenu.label "BonjourFoxy">
 <!ENTITY bonjourfoxyMenuSidebar.label "Sidebar">
-<!ENTITY bonjourfoxyMenuBrowser.label "Browser">
+<!ENTITY bonjourfoxyMenuBrowser.label "Bonjour Browser">
 <!ENTITY bonjourfoxySidebarMenuItem.label "BonjourFoxy">
 <!ENTITY bonjourfoxySidebarOpenDefault.label "Open">
 <!ENTITY bonjourfoxySidebarOpenTab.label "Open in New Tab">
 <!ENTITY bonjourfoxySidebarOpenWindow.label "Open in New Window">
+<!ENTITY bonjourfoxySidebarSearchOption.label "Show search in sidebar">
 <!ENTITY bonjourfoxyInterfaceIndexName "Network Interface">
 <!ENTITY bonjourfoxyServiceName "Service Name">
 <!ENTITY bonjourfoxyRegistrationType "Registration Type">

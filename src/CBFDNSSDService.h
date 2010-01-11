@@ -16,10 +16,10 @@
  */
 
 
-#ifndef _CDNSSDSERVICE_H
-#define _CDNSSDSERVICE_H
+#ifndef _CBFDNSSDSERVICE_H
+#define _CBFDNSSDSERVICE_H
 
-#include "IDNSSDService.h"
+#include "IBFDNSSDService.h"
 #include "nsCOMPtr.h"
 #include "nsComponentManagerUtils.h"
 #include "nsIThread.h"
@@ -31,25 +31,36 @@
 #include <string>
 
 
-#define CDNSSDSERVICE_CONTRACTID "@bonjourfoxy.net/DNSSDService;1"
-#define CDNSSDSERVICE_CLASSNAME "CDNSSDService"
-#define CDNSSDSERVICE_CID { 0xe8e81354, 0x2bf5, 0x41bb, { 0xbc, 0x61, 0x6a, 0xed, 0x6c, 0x88, 0xe0, 0x17 } }
+#define CBFDNSSDSERVICE_CONTRACTID "@bonjourfoxy.net/BFDNSSDService;1"
+#define CBFDNSSDSERVICE_CLASSNAME "CBFDNSSDService"
+#define CBFDNSSDSERVICE_CID { 0xe8e81354, 0x2bf5, 0x41bb, { 0xbc, 0x61, 0x6a, 0xed, 0x6c, 0x88, 0xe0, 0x17 } }
 
 /* Header file */
-class CDNSSDService : public IDNSSDService, nsIRunnable
+class CBFDNSSDService : public IBFDNSSDService, nsIRunnable
 {
 public:
 	NS_DECL_ISUPPORTS
-	NS_DECL_IDNSSDSERVICE
+	NS_DECL_IBFDNSSDSERVICE
 	NS_DECL_NSIRUNNABLE
 
-	CDNSSDService();
-	CDNSSDService( nsISupports * listener );
+	CBFDNSSDService();
+	CBFDNSSDService( nsISupports * listener );
 
-	virtual ~CDNSSDService();
+	virtual ~CBFDNSSDService();
 	
 private:
 
+	static void DNSSD_API
+	EnumerateReply
+		(
+		DNSServiceRef		sdRef,
+		DNSServiceFlags		flags,
+		uint32_t			interfaceIndex,
+		DNSServiceErrorType	errorCode,
+		const char		*	domain,
+		void			*	context
+		);
+		
 	static void DNSSD_API
 	BrowseReply
 		(
@@ -100,9 +111,6 @@ private:
 	SetupNotifications();
 	
 	void
-	Test();
-	
-	void
 	Cleanup();
 
 	PRThreadPool	*	m_threadPool;
@@ -112,7 +120,9 @@ private:
 	PRJobIoDesc			m_iod;
 	PRJob			*	m_job;
 
-	nsString			m_svcTxtKey;
+	nsAutoString		m_svcTxtKey;
+	nsAutoString		m_regType;
+	PRBool				m_enuDomainType;
 };
 
 

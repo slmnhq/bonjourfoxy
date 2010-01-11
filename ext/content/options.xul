@@ -7,27 +7,9 @@
      xmlns:html="http://www.w3.org/1999/xhtml"
      buttons="accept"
      width="300"
-     height="160">
-<script>
-<![CDATA[
-
-function localise() {
-    var strings = document.getElementById("string-bundle");
-    var title = strings.getString('title') + " ";
-    if (/Win/.test(navigator.platform)) {
-        title += strings.getString('winPrefLabel');
-    } else {
-        title += strings.getString('unixPrefLabel');
-    }
-    document.getElementById('bonjourfoxy-prefpane').setAttribute('label',title);
-    document.getElementById('bonjourfoxyPreferences').setAttribute('title',title);
-    document.title = title;
-}
-
-window.addEventListener("load", localise, false);
-
-]]>
-</script>
+     height="180">
+<script src="chrome://bonjourfoxy/content/namespace.js"/>
+<script src="chrome://bonjourfoxy/content/lib.js"/>
 <stringbundleset id="stringbundleset">
   <stringbundle id="string-bundle" src="chrome://bonjourfoxy/locale/bonjourfoxy.properties"/>
 </stringbundleset>
@@ -36,6 +18,7 @@ window.addEventListener("load", localise, false);
     <preference id="pref_alerts" name="extensions.bonjourfoxy.alerts" instantApply="true" type="bool"/>
     <preference id="pref_statusbaricon" name="extensions.bonjourfoxy.statusbaricon" instantApply="true" type="bool"/>
     <preference id="pref_target" name="extensions.bonjourfoxy.target" instantApply="true" type="string"/>
+    <preference id="pref_sidebarsearch" name="extensions.bonjourfoxy.sidebarsearch" instantApply="true" type="bool"/>
   </preferences>
  <caption style="font-weight: bold; font-size: 1.1em;" value="&bonjourfoxyInterfaceSettings.label;"/>
  <vbox flex="1">
@@ -59,6 +42,11 @@ window.addEventListener("load", localise, false);
             <menuitem label="&bonjourfoxyLinkTarget.NewWindow;" value="window" />
         </menupopup>
       </menulist>
+  </hbox>
+  <hbox>
+      <label control="statusbaricon" value="&bonjourfoxySidebarSearchOption.label;"/>
+      <spacer flex="1"/>
+      <checkbox preference="pref_sidebarsearch" id="statusbaricon"/>
   </hbox>
   <hbox><spacer flex="1"/><description value="&bonjourfoxySettingsNote;"/><spacer flex="1" /></hbox>
  </vbox>

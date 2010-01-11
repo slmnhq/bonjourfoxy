@@ -16,22 +16,22 @@
  */
 
 #include "nsIGenericFactory.h"
-#include "CDNSSDService.h"
+#include "CBFDNSSDService.h"
 
 NS_COM_GLUE nsresult
 NS_NewGenericModule2(nsModuleInfo const *info, nsIModule* *result);
 
-NS_GENERIC_FACTORY_CONSTRUCTOR(CDNSSDService)
+NS_GENERIC_FACTORY_CONSTRUCTOR(CBFDNSSDService)
 
 static nsModuleComponentInfo components[] =
 {
     {
-       CDNSSDSERVICE_CLASSNAME, 
-       CDNSSDSERVICE_CID,
-       CDNSSDSERVICE_CONTRACTID,
-       CDNSSDServiceConstructor,
+       CBFDNSSDSERVICE_CLASSNAME, 
+       CBFDNSSDSERVICE_CID,
+       CBFDNSSDSERVICE_CONTRACTID,
+       CBFDNSSDServiceConstructor,
     }
 };
 
-NS_IMPL_NSGETMODULE("CDNSSDServiceModule", components) 
+NS_IMPL_NSGETMODULE("CBFDNSSDServiceModule", components) 
 

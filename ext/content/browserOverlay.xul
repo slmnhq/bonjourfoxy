@@ -3,24 +3,27 @@
 <!DOCTYPE overlay SYSTEM "chrome://bonjourfoxy/locale/bonjourfoxy.dtd">
 <overlay id="bonjourfoxy-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script src="overlay.js"/>
-  <script src="shared.js"/>
-  <script src="firstrun.js"/>
+  <script src="chrome://bonjourfoxy/content/namespace.js"/>
+  <script src="chrome://bonjourfoxy/content/lib.js"/>
+  <script src="chrome://bonjourfoxy/content/browserOverlay.js" />
   <stringbundleset id="stringbundleset">
     <stringbundle id="string-bundle" src="chrome://bonjourfoxy/locale/bonjourfoxy.properties"/>
   </stringbundleset>
 
   <menupopup id="menu_ToolsPopup">
+    <menuitem label="&bonjourfoxyMenuBrowser.label;" insertbefore="devToolsSeparator" id="mnuItemBonjourBrowser" />
+    <!--
     <menu label="&bonjourfoxyMenu.label;" class="menu-iconic" image="chrome://bonjourfoxy/content/status_color.png"
-          insertafter="devToolsSeparator" onpopupshowing="bonjourfoxy.menuAddServices(event);">
+          insertbefore="devToolsSeparator" onpopupshowing="bonjourfoxy.overlay.menuShowing(event);">
     <menupopup id="bonjourMenuPopup">
         <menuitem id="key_openEmptySidebar" label="&bonjourfoxyMenuSidebar.label;" observes="viewBonjourServices"
               oncommand="bonjourfoxy.onMenuItemCommand(event);"/>
         <menuitem label="&bonjourfoxyMenuBrowser.label;" oncommand="window.open('chrome://bonjourfoxy/content/browser.xul','bonjourfoxyBrowser','chrome,resizable=yes,width=600,height=600');" />
-        <menuitem label="(overridden)" id="bonjourfoxyMenuPref" oncommand="bonjourfoxy.openPreferences(event);"/>
+        <menuitem label="(overridden)" id="bonjourfoxyMenuPref" oncommand="bonjourfoxy.lib.openPrefs();"/>
         <menuseparator/>
     </menupopup>
     </menu>
+    /-->
   </menupopup>
 
   <menupopup id="viewSidebarMenu">
@@ -32,7 +35,7 @@
   <toolbarbutton id="bonjourfoxy-toolbar-button"
     label="&bonjourfoxyToolbar.label;"
     tooltiptext="&bonjourfoxyToolbar.tooltip;"
-    oncommand="bonjourfoxy.onToolbarButtonCommand()"
+    oncommand="toggleSidebar('viewBonjourServices');"
     class="toolbarbutton-1 chromeclass-toolbar-additional"/>
   </toolbarpalette>
 

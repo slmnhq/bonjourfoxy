@@ -15,16 +15,17 @@ ifeq ($(strip $(FF_REL)),)
 else
 VPATH = ..
 UNAME = $(shell (uname -o 2>/dev/null||uname -s 2>/dev/null)|tr 'A-Z' 'a-z')
-HEADERS = bfdnssdbrowsecallback.h bfdnssdenumeratecallback.h \
-          bfdnssdregistercallback.h bfdnssdresolvecallback.h bfdnssd.h
-TYPELIB = bfdnssdbrowsecallback.xpt bfdnssdenumeratecallback.xpt \
-          bfdnssdregistercallback.xpt bfdnssdresolvecallback.xpt \
-          bfdnssd.xpt bfnotifier.xpt
-ifeq ($(UNAME),gnu/linux)
-    DISTID = $(shell lsb_release -is | tr 'A-Z ' 'a-z_')
-    include ../$(DISTID).inc
-else
+HEADERS = IBFDNSSDService.h CBFDNSSDService.h
+TYPELIB = IBFDNSSDService.xpt IBFServiceTracker.xpt
+ifeq ($(UNAME),darwin)
     include ../$(UNAME).inc
+else
+ifeq ($(UNAME),cygwin)
+    include ../$(UNAME).inc
+else
+    @echo This script won't build on this platform
+    @false
+endif
 endif
 endif
 endif

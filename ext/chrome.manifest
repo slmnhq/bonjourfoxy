@@ -1,4 +1,5 @@
 content	bonjourfoxy	content/
+resource	bonjourfoxy	modules/
 locale	bonjourfoxy	en-US	locale/en-US/
 skin	bonjourfoxy	classic/1.0	skin/
 skin	bonjourfoxy	classic/1.0	skin-darwin/ os=darwin

@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>BonjourFoxy</title>
+<link rel="stylesheet" type="text/css" href="chrome://bonjourfoxy/content/welcome.css" />
+<script src="chrome://bonjourfoxy/content/namespace.js" type="text/javascript"></script>
+<script src="chrome://bonjourfoxy/content/lib.js" type="text/javascript"></script>
+<script src="chrome://bonjourfoxy/content/welcome.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="main">
+<h1>You've just installed BonjourFoxy <span class="beta">Beta</span><span id="bfversion"></span></h1>
+<p class="mt">Firefox is now service discovery enabled but there's a few things you may want configure...</p>
+<table>
+<tr>
+    <td class="option">
+        <div class="option">
+            <h3>Toolbar Button</h3>
+            <div class="optdescription">
+            <p>By default the Sidebar is accessed via the View&rarr;Sidebars menu. A toolbar button makes it a click away. </p></p>
+            <p class="c"><button id="btnTbExample"><img src="transparent.gif" id="toolbarImageMac" style='background: url("chrome://bonjourfoxy/skin/toolbar-button.png"); clip: rect( 0px 30px 16px 24px); height: 22px; width: 36px; vertical-align: top;'/><img src="transparent.gif" id="toolbarImageWinNix" style='background: url("chrome://bonjourfoxy/skin/toolbar-button.png"); clip: rect( 0px 40px 16px 24px); height: 20px; width: 24px;'/></button></p>
+            </div>
+            <div class="optbutton"><button id="btnCustToolbar">Customise Toolbar</button></div>
+        </div>
+    </td>
+    <td class="option">
+        <div class="option">
+            <h3>Service Indicator</h3>
+            <div class="optdescription">
+            <p>See at a glance whether services are available &mdash; in the lower right-hand corner of the browser window a <img src="chrome://bonjourfoxy/content/status_bw.png"> or <img src="chrome://bonjourfoxy/content/status_color.png"> will appear to indicate whether services are available.</p>
+            </div>
+            <div class="optbutton"><button id="btnToggleStatusIcon">Turn on status icon</button></div>
+        </div>
+    </td>
+    <td class="option">
+        <div class="option">
+            <h3>Service Alerts</h3>
+            <div class="optdescription">
+            <p>Get a visual notification when a new service is discovered.</p>
+            <p class="c"><button id="btnAlertExample">Show Example Alert</button></p>
+            </div>
+            <div class="optbutton"><button id="btnToggleAlerts">Enable Alerts</button></div>
+        </div>
+    </td>
+</tr>
+</table>
+<p class="mt">Configuration options including the features above can be accessed by opening Add-ons via the Tools menu, selecting BonjourFoxy and then clicking <span id="settingsTxtNixMac">Preferences</span><span id="settingsTxtWin">Options</span>. A generic Bonjour Browser can also be accessed by clicking 'Bonjour Browser' in the Tools menu.</p>
+</div>
+</body>
+</html>

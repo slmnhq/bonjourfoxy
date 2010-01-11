@@ -2,26 +2,27 @@
 <head>
 <script type="text/javascript">
 var component;
+var svc;
 var state=Object();
 
-var callback=function(error, add, ifIndex, sname, rtype, rdomain){
+var callback=function(service, add, interfaceIndex, error, serviceName, regtype, domain){
     if (!error) {
-        if (!state[sname]) {
-            state[sname]=0;
+        if (!state[serviceName]) {
+            state[serviceName]=0;
             }
         selbox = document.getElementById("selbox");
         if (add) {
-            state[sname]++;
-            if (state[sname]==1) {
+            state[serviceName]++;
+            if (state[serviceName]==1) {
                 opt = document.createElement("option");
-                opt.innerHTML = sname;
+                opt.innerHTML = serviceName;
                 selbox.appendChild(opt);
                 }
             } else {
-            state[sname]--;
-            if (state[sname]==0) {
+            state[serviceName]--;
+            if (state[serviceName]==0) {
                 for (child in selbox.childNodes) {
-                    if (selbox.childNodes[child].innerHTML == sname)    {
+                    if (selbox.childNodes[child].innerHTML == serviceName)    {
                         selbox.removeChild(selbox.childNodes[child]);
                         selbox.style.display = 'none';
                         selbox.style.display = '';
@@ -34,13 +35,9 @@ var callback=function(error, add, ifIndex, sname, rtype, rdomain){
 
 function browse()   {
     netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-    component=Components.classes["@bonjourfoxy.net/bfdnssd;1"]
-              .createInstance(Components.interfaces.BFIDNSSD);
-    component.browseCallback=callback;
-    component.interfaceIndex=0;                           // all interfaces
-    component.registrationType="_services._dns-sd._udp";  // services availible
-    component.registrationDomain="local";
-    component.browse();
+    component=Components.classes["@bonjourfoxy.net/BFDNSSDService;1"]
+              .createInstance(Components.interfaces.IBFDNSSDService);
+    svc = component.browse(0, "_services._dns-sd._udp", "", callback);
 }
 
 window.onload = browse;
