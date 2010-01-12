@@ -4,8 +4,8 @@ bonjourfoxy.browser = {
         bonjourfoxy.browser.add("_services._dns-sd._udp", bonjourfoxy.browser.regtypesListener);
     },
     shutdown: function() {
-        for (regtype in bonjourfoxy.browser.dnssd_instances[newregtype])    {
-            try { bonjourfoxy.browser.dnssd_instances[newregtype].stop(); }
+        for (regtype in bonjourfoxy.browser.dnssd_instances)    {
+            try { bonjourfoxy.browser.dnssd_instances[regtype].stop(); }
             catch (e) {}
         }
         try { bonjourfoxy.browser.resolverContext.stop(); }
@@ -13,12 +13,10 @@ bonjourfoxy.browser = {
     },
     dnssd_instances: Object(),
     add: function(regtype, listener) {
-        bonjourfoxy.lib.log(regtype);
         bonjourfoxy.browser.dnssd_instances[regtype] = bonjourfoxy.browser.dnssd.browse(0, regtype, "", listener);
     },
     regtypesListener: function(service, add, interfaceIndex, error, serviceName, regtype, domain) {
         if (!error && add) {
-            bonjourfoxy.lib.log([service, add, interfaceIndex, error, serviceName, regtype, domain].join(" "));
             var newregtype = serviceName + '.' + regtype.split(".")[0];
             if (!bonjourfoxy.browser.dnssd_instances[newregtype]) {
                 bonjourfoxy.browser.add(newregtype, bonjourfoxy.browser.instanceListener);
@@ -49,9 +47,8 @@ bonjourfoxy.browser = {
                 newListItem.setAttribute("id", itemid);
                 document.getElementById('lbServices').appendChild(newListItem);
             } else {
-                document.getElementById('lbServices').removeChild(
-                    document.getElementById(itemid)
-                );
+                var rmElement = document.getElementById(itemid);
+                document.getElementById('lbServices').removeChild(rmElement);
             }
         }
     },
@@ -66,12 +63,15 @@ bonjourfoxy.browser = {
         bonjourfoxy.browser.resolverContext.regtype = regtype;
         bonjourfoxy.browser.resolverContext.domain = domain;
         bonjourfoxy.browser.resolverContext.resolved = false;
-        bonjourfoxy.browser.resolverContext.label = [serviceName, regtype, domain, "on interface", interfaceIndex].join(" ");
-        bonjourfoxy.browser.resolver = bonjourfoxy.browser.dnssd.resolve(interfaceIndex, serviceName, regtype, domain, "", bonjourfoxy.browser.resolveListener);
-        window.setTimeout(function(){
+        try { bonjourfoxy.browser.resolver.stop(); }
+        catch (e) {}
+        bonjourfoxy.browser.resolver = bonjourfoxy.browser.dnssd.resolve(interfaceIndex, serviceName, regtype, domain, "", bonjourfoxy.lib.callInContext(bonjourfoxy.browser.resolveListener));
+        try { window.clearTimeout(bonjourfoxy.browser.resolverTimer); }
+        catch (e) {}
+        bonjourfoxy.browser.resolverTimer = window.setTimeout(function(){
             if (!bonjourfoxy.browser.resolverContext.resolved)   {
                 bonjourfoxy.browser.resolver.stop();
-                bonjourfoxy.lib.dialog("Timeout", "Timed out resolving " + bonjourfoxy.browser.resolverContext.label);
+                bonjourfoxy.lib.dialog("Timeout", "Timed out resolving service");
             }
         }, 30000);
     },

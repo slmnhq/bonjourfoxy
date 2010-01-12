@@ -86,6 +86,10 @@ bonjourfoxy.lib = {
             .QueryInterface(Components.interfaces.nsIPrefBranch2)
             .removeObserver("", fn);
     },
+    callInContext: function(fn) {
+        var context = this;
+        return function() { fn.apply(context, arguments); }
+    },
     openPrefs: function() {
         var paneID = "bonjourfoxy-prefpane";
         var features = "chrome,titlebar,toolbar,centerscreen,true,dialog=no";
