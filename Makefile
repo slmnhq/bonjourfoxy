@@ -20,7 +20,7 @@ xpcom:
 	make -C src FF_RELS="$(FF_RELS)"
 
 dir: xpcom
-	echo Creating extension folders
+	@echo Creating extension folders
 	mkdir -p scratch && cp -r ext/* scratch
 	perl -pi -e "s/%%MINVER%%/$(MIN_VER)/g" scratch/install.rdf
 	perl -pi -e "s/%%MAXVER%%/$(MAX_VER)/g" scratch/install.rdf
@@ -36,7 +36,7 @@ xpi: dir
 	cd scratch && zip -r ../bonjourfoxy-$(BF_VER).xpi *
 
 nixdir:
-	echo Creating nix dir
+	@echo Creating nix dir
 	mkdir -p nix/bonjourfoxy-${BF_VER}/{ext,src}
 	cp -r ext/ nix/bonjourfoxy-${BF_VER}/ext/
 	perl -pi -e "s/%%VER%%/$(BF_VER)/g" nix/bonjourfoxy-${BF_VER}/ext/install.rdf
@@ -49,7 +49,7 @@ nixball: nixdir
 
 componentcheck: xpcom
 	@for release in $(FF_RELS); do \
-        @for component in BFDNSSDService-darwin-universal.dylib BFDNSSDService.dll; do \
+        for component in BFDNSSDService-darwin-universal.dylib BFDNSSDService.dll; do \
             if [ ! -f src/$$release/$$component ]; then \
                 echo \ ; echo \*\* Please build src/$$release/$$component. Build will continue once it is built. \*\*; \
                 while [ ! -f src/$$release/$$component ]; do sleep 2; done \
