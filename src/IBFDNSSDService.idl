@@ -38,7 +38,7 @@ interface IBFDNSSDBrowseListener : nsISupports
 interface IBFDNSSDResolveListener : nsISupports
 {
 	void
-	onResolve( in IBFDNSSDService service, in long interfaceIndex, in long error, in AString fullname, in AString host, in short port, in AString key, in AString value );
+	onResolve( in IBFDNSSDService service, in long interfaceIndex, in long error, in AString fullname, in AString host, in long port, in AString key, in AString value );
 };
 
 
