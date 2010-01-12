@@ -123,6 +123,7 @@ private:
 	nsAutoString		m_svcTxtKey;
 	nsAutoString		m_regType;
 	PRBool				m_enuDomainType;
+	PRBool				m_stopped;
 };
 
 

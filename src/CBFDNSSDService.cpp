@@ -35,7 +35,8 @@ CBFDNSSDService::CBFDNSSDService()
 	m_sdRef( NULL ),
 	m_listener( NULL ),
 	m_fileDesc( NULL ),
-	m_job( NULL )
+	m_job( NULL ),
+	m_stopped( PR_FALSE )
 {
 }
 
@@ -46,7 +47,8 @@ CBFDNSSDService::CBFDNSSDService( nsISupports * listener )
 	m_sdRef( NULL ),
 	m_listener( listener ),
 	m_fileDesc( NULL ),
-	m_job( NULL )
+	m_job( NULL ),
+	m_stopped ( PR_FALSE )
 {
 }
 
@@ -60,21 +62,18 @@ CBFDNSSDService::~CBFDNSSDService()
 void
 CBFDNSSDService::Cleanup()
 {
+	m_stopped = PR_TRUE;
 	if ( m_job )
 	{
 		PR_CancelJob( m_job );
-		PR_JoinJob( m_job );
 		m_job = NULL;
 	}
-
-	/*
+	
 	if ( m_threadPool != NULL )
 	{
 		PR_ShutdownThreadPool( m_threadPool );
-		PR_JoinThreadPool( m_threadPool );
 		m_threadPool = NULL;
 	}
-	*/
 	
 	if ( m_fileDesc != NULL )
 	{
@@ -93,6 +92,7 @@ CBFDNSSDService::Cleanup()
 nsresult
 CBFDNSSDService::SetupNotifications()
 {
+	if ( m_stopped ) return NS_OK;
 	m_iod.socket	= m_fileDesc;
 	m_iod.timeout	= PR_INTERVAL_NO_TIMEOUT;
 	m_job			= PR_QueueJob_Read( m_threadPool, &m_iod, Read, this, PR_FALSE );
@@ -360,7 +360,23 @@ exit:
 NS_IMETHODIMP
 CBFDNSSDService::Stop()
 {
-	Cleanup();
+	m_stopped = PR_TRUE;
+	if ( m_job != NULL )
+	{
+		PR_CancelJob( m_job );
+		m_job = NULL;
+	}
+	if ( m_fileDesc != NULL )
+	{
+		PR_Close( m_fileDesc );
+		m_fileDesc = NULL;
+	}
+	
+	if ( m_sdRef )
+	{
+		DNSServiceRefDeallocate( m_sdRef );
+		m_sdRef = NULL;
+	}
 	return NS_OK;
 }
 
