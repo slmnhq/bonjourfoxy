@@ -100,20 +100,6 @@ BFServiceTracker.prototype = {
         return Components.classes["@mozilla.org/array;1"]
                .createInstance(Components.interfaces.nsIMutableArray);
     },
-    _displayWelcome: function() {
-        var extensionid = this.prefs().getCharPref("extensionid");
-        var bfVer = Components.classes["@mozilla.org/extensions/manager;1"]
-                    .getService(Components.interfaces.nsIExtensionManager)
-                    .getItemForID(extensionid) 
-                    .version;
-        if (this.prefs().getCharPref("rev") != bfVer)   {
-            this.prefs().setCharPref("rev", bfVer);
-            Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                .getService(Components.interfaces.nsIWindowMediator)
-                .getMostRecentWindow('navigator:browser')
-                .openUILinkIn("chrome://bonjourfoxy/content/welcome.html","tab");
-        }
-    },
     observe: function(subject, topic, data) {
         switch(topic)   {
             case "xpcom-startup":
@@ -134,7 +120,6 @@ BFServiceTracker.prototype = {
                         var eCallback = this.callInContext(this.eListener);
                         this._dnssdSvcEnum = dnssdSvc.enumerate(0, true, eCallback);
                         this._updateAlertsPref();
-                        this._displayWelcome();
                     });
                     this._initTimer.initWithCallback({notify: tCallback}, 500, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
                 }

@@ -4,6 +4,7 @@ bonjourfoxy.overlay = {
         bonjourfoxy.lib.observerService().addObserver(bonjourfoxy.overlay, "BFServiceTracker_Change", false);
         bonjourfoxy.overlay.displayStatusBarIcon();
         bonjourfoxy.overlay.setStatusBarIcon();
+        bonjourfoxy.overlay.displayWelcome();
         document.getElementById("mnuItemBonjourBrowser").addEventListener("command", function() {
             window.open('chrome://bonjourfoxy/content/browser.xul',
                         'bonjourfoxyBrowser',
@@ -29,6 +30,13 @@ bonjourfoxy.overlay = {
         }
         if (topic == "BFServiceTracker_Change")  {
             bonjourfoxy.overlay.setStatusBarIcon();
+        }
+    },
+    displayWelcome: function()  {
+        var bfVer = bonjourfoxy.lib.version();
+        if (bonjourfoxy.lib.userPrefs().getCharPref("rev") != bfVer)   {
+            bonjourfoxy.lib.openLink("chrome://bonjourfoxy/content/welcome.html", "tab");
+            bonjourfoxy.lib.userPrefs().setCharPref("rev", bfVer);
         }
     },
     displayStatusBarIcon: function() {
