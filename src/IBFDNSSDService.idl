@@ -62,7 +62,7 @@ interface IBFDNSSDService : nsISupports
 	resolve( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString txtKey, in IBFDNSSDResolveListener listener );
 
 	IBFDNSSDService
-	register( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString targetHost, in short targetPort, in AString txtKey, in AString txtValue, in IBFDNSSDRegisterListener listener );
+	register( in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString targetHost, in long targetPort, in AString txtKey, in AString txtValue, in IBFDNSSDRegisterListener listener );
 
 	void
 	stop();

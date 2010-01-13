@@ -288,7 +288,7 @@ exit:
 
 /* IBFDNSSDService register (in long interfaceIndex, in AString name, in AString regtype, in AString domain, in AString key, in AString value, in IBFDNSSDRegisterListener listener); */
 NS_IMETHODIMP
-CBFDNSSDService::Register(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, const nsAString & targetHost, PRInt16 targetPort, const nsAString & txtKey, const nsAString & txtValue, IBFDNSSDRegisterListener *listener, IBFDNSSDService **_retval NS_OUTPARAM)
+CBFDNSSDService::Register(PRInt32 interfaceIndex, const nsAString & name, const nsAString & regtype, const nsAString & domain, const nsAString & targetHost, PRInt32 targetPort, const nsAString & txtKey, const nsAString & txtValue, IBFDNSSDRegisterListener *listener, IBFDNSSDService **_retval NS_OUTPARAM)
 {
 	CBFDNSSDService	*	service	= NULL;
 	DNSServiceErrorType dnsErr	= 0;
