@@ -2,7 +2,7 @@
 <?xml-stylesheet href="chrome://browser/content/places/places.css"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/places/places.css"?>
-<?xml-stylesheet href="list.css"?>
+<?xml-stylesheet href="chrome://bonjourfoxy/content/list.css"?>
 
 <page   orient="vertical"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -10,7 +10,7 @@
 
 <script src="chrome://bonjourfoxy/content/namespace.js"/>
 <script src="chrome://bonjourfoxy/content/lib.js"/>
-<script src="chrome://bonjourfoxy/content/list.js" /> -->
+<script src="chrome://bonjourfoxy/content/list.js" />
 
 <menupopup id="targetmenu">
     <menuitem label="Open" value="current"/>
