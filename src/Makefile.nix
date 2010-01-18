@@ -36,7 +36,7 @@ else ifeq (exists,$(shell test -d ${LIB_PATH}/firefox-${FF_FULL_VER}/extensions 
 endif
 EXTENSION_ID = bonjourfoxy@${EXTENSION_ID_SUFFIX}
 EEXTENSION_ID = bonjourfoxy\@${EXTENSION_ID_SUFFIX}
-DESTDIR = ${EXTENSIONS_PATH}/${EXTENSION_ID}
+TARGETDIR = ${EXTENSIONS_PATH}/${EXTENSION_ID}
 
 # Avahi includes
 AVAHI_PATH = /usr/include/avahi-compat-libdns_sd
@@ -140,12 +140,12 @@ dir: xpcom
 	cp src/*.so scratch/lib/${FF_MAJOR_VER}
 	@echo \ 
 	@echo Extension staged in $(CURDIR)/scratch
-	@echo Run make install to install to ${DESTDIR}
+	@echo Run make install to install to ${DESTDIR}${TARGETDIR}
 
 install:
 	for folder in $$(find scratch/ -type d | sed 's/scratch//g'); do \
-        install -d ${DESTDIR}$${folder}; \
-        install -m644 scratch$${folder}/* ${DESTDIR}$${folder}; \
+        install -d ${DESTDIR}${TARGETDIR}$${folder}; \
+        install -m644 scratch$${folder}/* ${DESTDIR}${TARGETDIR}$${folder}; \
     done
 
 clean:
