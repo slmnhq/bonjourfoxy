@@ -68,7 +68,7 @@ else ifeq (exists,$(shell test -d /usr/share/idl/xulrunner-sdk-1.9 && echo exist
 else ifeq (exists,$(shell test -d /usr/share/idl/xulrunner-${GRE_VER} && echo exists))
     XR_IDL_PATH = /usr/share/idl/xulrunner-${GRE_VER}
 endif
-IDL_INCLUDES = -I ${XR_IDL_PATH}/stable -I {XR_IDL_PATH}/unstable
+IDL_INCLUDES = -I ${XR_IDL_PATH}/stable -I ${XR_IDL_PATH}/unstable
 ifeq (exists,$(shell test -f /usr/lib/xulrunner-1.9/xpidl && echo exists))
     XPIDL = /usr/lib/xulrunner-1.9/xpidl
 else ifeq (exists,$(shell test -f /usr/lib/xulrunner-${GRE_VER}/xpidl && echo exists))
