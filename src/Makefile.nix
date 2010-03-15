@@ -21,7 +21,42 @@ FF_MAJOR_VER := $(shell echo ${FF_FULL_VER}|cut -d "." -f1,2)
 FF_MIN_VER := ${FF_MAJOR_VER}
 FF_MAX_VER := ${FF_MAJOR_VER}.*
 
-LIB_PATH := /usr/lib${SUFFIX}
+INSTALL_FILES = /install.rdf \
+                /skin/toolbar-button.png \
+                /skin/overlay.css \
+                /defaults/preferences/defaults.js \
+                /locale/en-US/bonjourfoxy.properties \
+                /locale/en-US/bonjourfoxy.dtd \
+                /lib/${FF_MAJOR_VER}/BFDNSSDService.so \
+                /chrome.manifest \
+                /content/list.css \
+                /content/options.xul \
+                /content/browserOverlay.js \
+                /content/browser.xul \
+                /content/browser.js \
+                /content/browserOverlay.xul \
+                /content/status_color.png \
+                /content/list.js \
+                /content/welcome.css \
+                /content/lib.js \
+                /content/namespace.js \
+                /content/list.xul \
+                /content/status_bw.png \
+                /content/transparent.gif \
+                /content/welcome.js \
+                /content/welcome.html \
+                /content/options.js \
+                /components/IBFDNSSDService.xpt \
+                /components/stub.js \
+                /components/BFServiceTracker.js \
+                /components/IBFServiceTracker.xpt \
+
+# Lib path
+ifeq (exists,$(shell test -d /usr/lib${SUFFIX} && echo exists))
+    LIB_PATH := /usr/lib${SUFFIX}
+else
+    LIB_PATH := /usr/lib
+endif
 
 # Destination directory
 ifeq (exists,$(shell test -d ${LIB_PATH}/firefox-addons/extensions && echo exists))
@@ -51,7 +86,11 @@ else ifeq (exists,$(shell test -d /usr/include/xulrunner-sdk-1.9 && echo exists)
 else ifeq (exists,$(shell test -d /usr/include/xulrunner-${GRE_VER} && echo exists))
     XR_INCLUDE_PATH = /usr/include/xulrunner-${GRE_VER}
 endif
-XR_INCLUDES = -I ${XR_INCLUDE_PATH}/stable -I ${XR_INCLUDE_PATH}/unstable
+ifeq (exists,$(shell test -d ${XR_INCLUDE_PATH}/stable && echo exists))
+    XR_INCLUDES = -I ${XR_INCLUDE_PATH}/stable -I ${XR_INCLUDE_PATH}/unstable
+else
+    XR_INCLUDES = -I ${XR_INCLUDE_PATH}
+endif
 
 # NSPR includes
 ifeq (exists,$(shell test -d /usr/include/nspr && echo exists))
@@ -143,9 +182,14 @@ dir: xpcom
 	@echo Run make install to install to ${DESTDIR}${TARGETDIR}
 
 install:
-	for folder in $$(find scratch/ -type d | sed 's/scratch//g'); do \
-        install -d ${DESTDIR}${TARGETDIR}$${folder}; \
-        install -m644 scratch$${folder}/* ${DESTDIR}${TARGETDIR}$${folder}; \
+	install -d ${DESTDIR}${TARGETDIR}/skin
+	install -d ${DESTDIR}${TARGETDIR}/defaults/preferences
+	install -d ${DESTDIR}${TARGETDIR}/locale/en-US
+	install -d ${DESTDIR}${TARGETDIR}/lib/${FF_MAJOR_VER}
+	install -d ${DESTDIR}${TARGETDIR}/content
+	install -d ${DESTDIR}${TARGETDIR}/components
+	for file in ${INSTALL_FILES}; do \
+        install -m644 scratch$${file} ${DESTDIR}${TARGETDIR}$${file}; \
     done
 
 clean:
