@@ -3,19 +3,21 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://browser/skin/places/places.css"?>
 <?xml-stylesheet href="chrome://bonjourfoxy/content/list.css"?>
-
+<!DOCTYPE overlay SYSTEM "chrome://bonjourfoxy/locale/bonjourfoxy.dtd">
 <page   orient="vertical"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         style="background-color: transparent !important; -moz-appearance: none !important;">
-
+<stringbundleset id="stringbundleset">
+    <stringbundle id="string-bundle" src="chrome://bonjourfoxy/locale/bonjourfoxy.properties"/>
+</stringbundleset>
 <script src="chrome://bonjourfoxy/content/namespace.js"/>
 <script src="chrome://bonjourfoxy/content/lib.js"/>
 <script src="chrome://bonjourfoxy/content/list.js" />
 
 <menupopup id="targetmenu">
-    <menuitem label="Open" value="current"/>
-    <menuitem label="Open in New Tab" value="tab"/>
-    <menuitem label="Open in New Window" value="window"/>
+    <menuitem label="&bonjourfoxy.sidebar.open.default;" value="current"/>
+    <menuitem label="&bonjourfoxy.sidebar.open.tab;" value="tab"/>
+    <menuitem label="&bonjourfoxy.sidebar.open.window;" value="window"/>
 </menupopup>
 
 <textbox id="search-box" type="search" searchbutton="false" timeout="250" hflex="1" oncommand="bonjourfoxy.list.search()"/>

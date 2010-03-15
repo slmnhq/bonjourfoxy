@@ -15,8 +15,8 @@ bonjourfoxy.list = {
     observe: function(subject, topic, data) {
          if (topic == "BFServiceTracker_Change")    {
              // subtypes potentially add/remove services from "Websites"
-            if (data != "Websites") {
-                this.treeView.update("Websites");
+            if (data != "website") {
+                this.treeView.update("website");
             }
             this.treeView.update(data);
          }
@@ -30,7 +30,7 @@ bonjourfoxy.list = {
         var opensbc = [];
         for (i=0; i<bonjourfoxy.list.treeView.data.length; i++)  {
             if (bonjourfoxy.list.treeView.data[i].isOpen)    {
-                opensbc.push(bonjourfoxy.list.treeView.data[i].label);
+                opensbc.push(bonjourfoxy.list.treeView.data[i].intlabel);
             }
         }
         bonjourfoxy.lib.userPrefs().setCharPref("sidebarcontainers", opensbc.join("|"));
@@ -117,7 +117,8 @@ bonjourfoxy.list = {
         },
         emptyContainer: function (idx) {
             if (!this.isContainer(idx))  {
-                throw "Item " + idx + " is not a container";
+                bonjourfoxy.lib.log("Item " + idx + " is not a container");
+                return;
             }
             var thisLevel = this.getLevel(idx);
             var deletecount = 0;
@@ -135,9 +136,10 @@ bonjourfoxy.list = {
         },
         populateContainer: function(idx) {
             if (!this.isContainer(idx))  {
-                throw "Item " + idx + " is not a container";
+                bonjourfoxy.lib.log("Item " + idx + " is not a container");
+                return;
             }
-            var category = this.data[idx].label;
+            var category = this.data[idx].intlabel;
             var toinsert = this.getServices(category);
             for (i=0; i<toinsert.length; i++)   {
                 this.data.splice(idx + i + 1, 0, toinsert[i]);
@@ -147,8 +149,11 @@ bonjourfoxy.list = {
         init: function()    {
             categories = bonjourfoxy.lib.ServiceTracker().getCategories();
             for (i=0; i < categories.length; i++)    {
+                var intlabel = categories.queryElementAt(i,Components.interfaces.nsIVariant);
+                var uilabel = bonjourfoxy.lib.uistring("serviceLabel_" + intlabel);
                 this.data.push({
-                    label: categories.queryElementAt(i, Components.interfaces.nsIVariant),
+                    label: uilabel,
+                    intlabel: intlabel,
                     isContainer: true,
                 });
                 document.getElementById("serviceList").view = bonjourfoxy.list.treeView;
@@ -161,7 +166,7 @@ bonjourfoxy.list = {
             }
             for (i=0; i < this.data.length; i++)    {
                 if (!this.data[i].isContainer) { continue; }
-                if (opensbcO[this.data[i].label])   {
+                if (opensbcO[this.data[i].intlabel])   {
                     this.toggleOpenState(i);
                 }
             }
@@ -172,13 +177,16 @@ bonjourfoxy.list = {
             var categoryIdx = -1;
             for (i=0; i<this.data.length; i++)  {
                 var item = this.data[i];
-                if (item.isContainer && item.label == category) {
+                if (item.isContainer && item.intlabel == category) {
                     if (!item.isOpen)   { return; }
                     categoryIdx = i;
                     break;
                 }
             }
-            if (categoryIdx == -1) { throw "Could not find idx of category " + category; }
+            if (categoryIdx == -1) { 
+                bonjourfoxy.lib.log("Could not find idx of category " + category);
+                return;
+            }
             var firstVisibleRow = this.treeBox.getFirstVisibleRow();
             this.treeBox.beginUpdateBatch();
             this.emptyContainer(categoryIdx);
@@ -195,7 +203,7 @@ bonjourfoxy.list = {
         getCellText: function(idx, column) { return this.data[idx].label; },
         isContainer: function(idx)         { return this.data[idx].isContainer; },
         isContainerOpen: function(idx)     { return this.data[idx].isOpen; },
-        isContainerEmpty: function(idx)    { return bonjourfoxy.lib.ServiceTracker().countServices(this.data[idx].label) == 0; },
+        isContainerEmpty: function(idx)    { return bonjourfoxy.lib.ServiceTracker().countServices(this.data[idx].intlabel) == 0; },
         isSeparator: function(idx)         { return false; },
         isSorted: function()               { return false; },
         isEditable: function(idx, column)  { return false; },

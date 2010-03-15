@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <!DOCTYPE window SYSTEM "chrome://bonjourfoxy/locale/bonjourfoxy.dtd">
-<window title="BonjourFoxy Browser" id="bonjourfoxyBrowser" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<window title="&bonjourfoxy.browser.label;" id="bonjourfoxyBrowser" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 <script src="chrome://bonjourfoxy/content/namespace.js"/>
 <script src="chrome://bonjourfoxy/content/lib.js"/>
 <script src="chrome://bonjourfoxy/content/browser.js" />
@@ -14,39 +14,39 @@
         <listcol flex="1"/>
       </listcols>
       <listhead flex="1">
-        <listheader label="&bonjourfoxyInterfaceIndexName;"/>
-        <listheader label="&bonjourfoxyServiceName;"/>
-        <listheader label="&bonjourfoxyRegistrationType;"/>
-        <listheader label="&bonjourfoxyRegistrationDomain;"/>
+        <listheader label="&bonjourfoxy.browser.interfaceindex;"/>
+        <listheader label="&bonjourfoxy.browser.service;"/>
+        <listheader label="&bonjourfoxy.browser.type;"/>
+        <listheader label="&bonjourfoxy.browser.domain;"/>
       </listhead>
     </listbox>
     <vbox id="gpServiceInfo" style="display: none;">
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyInterfaceIndexName;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.interfaceindex;"/>
     <textbox flex="1" value="Interface Index" id="tbInterfaceIndex" readonly="true" />
     </hbox>
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyServiceName;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.service;"/>
     <textbox flex="1" value="Service Name" id="tbServiceName" readonly="true" />
     </hbox>
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyRegistrationType;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.type;"/>
     <textbox flex="1" value="Registration Type" id="tbRegistrationType" readonly="true" />
     </hbox>
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyRegistrationDomain;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.domain;"/>
     <textbox flex="1" value="Registration Domain" id="tbRegistrationDomain" readonly="true" />
     </hbox>
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyServiceHost;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.host;"/>
     <textbox flex="1" value="Host" id="tbHost" readonly="true" />
     </hbox>
     <hbox align="center">
-    <label style="width: 11em;" value="&bonjourfoxyServicePort;"/>
+    <label style="width: 11em;" value="&bonjourfoxy.browser.port;"/>
     <textbox flex="1" value="Port" id="tbPort" readonly="true" />
     </hbox>
     <hbox>
-    <label style="width: 11em; padding-top: 5px;" value="&bonjourfoxyTXTRecord;"/>
+    <label style="width: 11em; padding-top: 5px;" value="&bonjourfoxy.browser.txtrecord;"/>
     <textbox flex="1" multiline="true" id="tbTextRecords" readonly="true" rows="7" />
     </hbox>
     </vbox>

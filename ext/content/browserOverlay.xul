@@ -11,30 +11,18 @@
   </stringbundleset>
 
   <menupopup id="menu_ToolsPopup">
-    <menuitem label="&bonjourfoxyMenuBrowser.label;" insertbefore="devToolsSeparator" id="mnuItemBonjourBrowser" />
-    <!--
-    <menu label="&bonjourfoxyMenu.label;" class="menu-iconic" image="chrome://bonjourfoxy/content/status_color.png"
-          insertbefore="devToolsSeparator" onpopupshowing="bonjourfoxy.overlay.menuShowing(event);">
-    <menupopup id="bonjourMenuPopup">
-        <menuitem id="key_openEmptySidebar" label="&bonjourfoxyMenuSidebar.label;" observes="viewBonjourServices"
-              oncommand="bonjourfoxy.onMenuItemCommand(event);"/>
-        <menuitem label="&bonjourfoxyMenuBrowser.label;" oncommand="window.open('chrome://bonjourfoxy/content/browser.xul','bonjourfoxyBrowser','chrome,resizable=yes,width=600,height=600');" />
-        <menuitem label="(overridden)" id="bonjourfoxyMenuPref" oncommand="bonjourfoxy.lib.openPrefs();"/>
-        <menuseparator/>
-    </menupopup>
-    </menu>
-    /-->
+    <menuitem label="&bonjourfoxy.browser.label;" insertbefore="devToolsSeparator" id="mnuItemBonjourBrowser" />
   </menupopup>
 
   <menupopup id="viewSidebarMenu">
-    <menuitem id="key_openEmptySidebar" label="&bonjourfoxySidebarMenuItem.label;" observes="viewBonjourServices"
+    <menuitem id="key_openEmptySidebar" label="&bonjourfoxy.sidebar.label;" observes="viewBonjourServices"
               oncommand="bonjourfoxy.onMenuItemCommand(event);"/>
   </menupopup>
   
   <toolbarpalette id="BrowserToolbarPalette">
   <toolbarbutton id="bonjourfoxy-toolbar-button"
-    label="&bonjourfoxyToolbar.label;"
-    tooltiptext="&bonjourfoxyToolbar.tooltip;"
+    label="&bonjourfoxy.toolbar.label;"
+    tooltiptext="&bonjourfoxy.toolbar.tooltip;"
     oncommand="toggleSidebar('viewBonjourServices');"
     class="toolbarbutton-1 chromeclass-toolbar-additional"/>
   </toolbarpalette>
@@ -45,18 +33,17 @@
                  type="checkbox"
                  group="sidebar"
                  sidebarurl="chrome://bonjourfoxy/content/list.xul"
-                 sidebartitle="&bonjourfoxy.title;"
+                 sidebartitle="&bonjourfoxy.sidebar.label;"
                  oncommand="toggleSidebar('viewBonjourServices');" />
   </broadcasterset>
 
   <statusbar id="status-bar">
     <statusbarpanel id="bonjourStatusIcon"
         class="statusbarpanel-iconic"
-        image="chrome://bonjourfoxy/content/status_bw.png"
-        tooltiptext="No Services Discovered"
         context="bonjourSBMenuPopup"
         onclick="bonjourfoxy.onMenuItemCommand(event);"
     />
   </statusbar>
-
+  -->
+  
 </overlay>

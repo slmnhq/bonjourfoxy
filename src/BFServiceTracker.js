@@ -25,9 +25,9 @@ BFServiceTracker.prototype = {
     _initCalled: false,
     _initTimer: null,
     _serviceCategories: [
-        {label: "Websites", regtype: "_http._tcp"},
-        {label: "Wikis", regtype: "_http._tcp,_wiki"},
-        {label: "Printers", regtype: "_http._tcp,_printer"},
+        {label: "website", regtype: "_http._tcp"},
+        {label: "wiki", regtype: "_http._tcp,_wiki"},
+        {label: "printer", regtype: "_http._tcp,_printer"},
     ],
     _browseDomains: Object(),
     _services: Object(),

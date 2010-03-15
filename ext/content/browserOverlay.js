@@ -19,9 +19,6 @@ bonjourfoxy.overlay = {
     setlabel: function(elid, label) {
         document.getElementById(elid).setAttribute('label', label);
     },
-    uistring: function(string) {
-        return document.getElementById("string-bundle").getString(string);
-    },
     observe: function(subject, topic, data) {
         if (topic == "nsPref:changed")  {
             if (data == "statusbaricon") {
@@ -47,15 +44,16 @@ bonjourfoxy.overlay = {
     setStatusBarIcon: function() {
         var statusIcon = document.getElementById('bonjourStatusIcon');
         var serviceCount = bonjourfoxy.lib.ServiceTracker().countServices("__ALL__");
+        var uistring = bonjourfoxy.lib.uistring;
         if (serviceCount == 0) {
             statusIcon.setAttribute("image", "chrome://bonjourfoxy/content/status_bw.png");
-            statusIcon.setAttribute("tooltiptext", "No services discovered");
+            statusIcon.setAttribute("tooltiptext", uistring("statusbarServices_none"));
         } else {
             statusIcon.setAttribute("image", "chrome://bonjourfoxy/content/status_color.png");
             if (serviceCount == 1) {
-                statusIcon.setAttribute("tooltiptext", serviceCount + " service discovered");
+                statusIcon.setAttribute("tooltiptext", uistring("statusbarServices_one"));
             } else {
-                statusIcon.setAttribute("tooltiptext", serviceCount + " services discovered");
+                statusIcon.setAttribute("tooltiptext", serviceCount + uistring("statusbarServices_many"));
             }
         }
     }

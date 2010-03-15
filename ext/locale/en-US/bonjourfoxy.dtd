@@ -1,40 +1,28 @@
-<!ENTITY bonjourfoxy.title "BonjourFoxy">
 <!ENTITY bonjourfoxy.label "BonjourFoxy">
-<!ENTITY bonjourfoxyToolbar.label "BonjourFoxy">
-<!ENTITY bonjourfoxyToolbar.tooltip "Toggle BonjourFoxy Sidebar">
-<!ENTITY bonjourfoxyMenu.label "BonjourFoxy">
-<!ENTITY bonjourfoxyMenuSidebar.label "Sidebar">
-<!ENTITY bonjourfoxyMenuBrowser.label "Bonjour Browser">
-<!ENTITY bonjourfoxySidebarMenuItem.label "BonjourFoxy">
-<!ENTITY bonjourfoxySidebarOpenDefault.label "Open">
-<!ENTITY bonjourfoxySidebarOpenTab.label "Open in New Tab">
-<!ENTITY bonjourfoxySidebarOpenWindow.label "Open in New Window">
-<!ENTITY bonjourfoxySidebarSearchOption.label "Show search in sidebar">
-<!ENTITY bonjourfoxyInterfaceIndexName "Network Interface">
-<!ENTITY bonjourfoxyServiceName "Service Name">
-<!ENTITY bonjourfoxyRegistrationType "Registration Type">
-<!ENTITY bonjourfoxyRegistrationSubtype "Registration Subtype">
-<!ENTITY bonjourfoxyRegistrationSubtypes "Registration Subtypes">
-<!ENTITY bonjourfoxyRegistrationDomain "Registration Domain">
-<!ENTITY bonjourfoxyServiceHost "Host">
-<!ENTITY bonjourfoxyServicePort "Port">
-<!ENTITY bonjourfoxyTXTRecord "TXT Record">
-<!ENTITY bonjourfoxyTXTRecords "TXT Records">
-<!ENTITY bonjourfoxyRegistrationSubtypesNote "Registration Subtypes only discovered when explictly sought">
-<!ENTITY bonjourfoxyServicesBrowserRefreshButton.label "Refresh Service List">
-<!ENTITY bonjourfoxyServiceHandler.label "Service Handler">
-<!ENTITY bonjourfoxyServiceHandlers.label "Service Handlers">
-<!ENTITY bonjourfoxyServiceHandlerLabel.label "Label">
-<!ENTITY bonjourfoxyInterfaceSettings.label "Interface Settings">
-<!ENTITY bonjourfoxyAlerts.label "Discovery notifications">
-<!ENTITY bonjourfoxyStatusBarIcon.label "Status bar icon">
-<!ENTITY bonjourfoxyLinkTarget.CurrentPage "Current Page">
-<!ENTITY bonjourfoxyLinkTarget.NewTab "New Tab">
-<!ENTITY bonjourfoxyLinkTarget.NewWindow "New Window">
-<!ENTITY bonjourfoxyLinkTarget.label "Open links in:">
-<!ENTITY bonjourfoxySettingsNote "Settings apply immediately">
-<!ENTITY bonjourfoxyNew "New">
-<!ENTITY bonjourfoxyEdit "Edit">
-<!ENTITY bonjourfoxyDelete "Delete">
-<!ENTITY bonjourfoxyEditRegtype "Edit Registration Type">
-<!ENTITY bonjourfoxyServiceScheme "Scheme">
+
+<!ENTITY bonjourfoxy.toolbar.label "BonjourFoxy">
+<!ENTITY bonjourfoxy.toolbar.tooltip "Display BonjourFoxy">
+
+<!ENTITY bonjourfoxy.sidebar.label "BonjourFoxy">
+<!ENTITY bonjourfoxy.sidebar.open.default "Open">
+<!ENTITY bonjourfoxy.sidebar.open.tab "Open in a New Tab">
+<!ENTITY bonjourfoxy.sidebar.open.window "Open in a New Window">
+
+<!ENTITY bonjourfoxy.prefs.label "Configure BonjourFoxy">
+<!ENTITY bonjourfoxy.prefs.alerts "Discovery notifications">
+<!ENTITY bonjourfoxy.prefs.statusbaricon "Status bar icon">
+<!ENTITY bonjourfoxy.prefs.linktarget.label "Open links in">
+<!ENTITY bonjourfoxy.prefs.linktarget.current "Current Page">
+<!ENTITY bonjourfoxy.prefs.linktarget.tab "New Tab">
+<!ENTITY bonjourfoxy.prefs.linktarget.window "New Window">
+<!ENTITY bonjourfoxy.prefs.sidebarsearch "Enable sidebar search">
+<!ENTITY bonjourfoxy.prefs.apply "Settings apply immediately">
+
+<!ENTITY bonjourfoxy.browser.label "Bonjour Browser">
+<!ENTITY bonjourfoxy.browser.interfaceindex "Network Interface">
+<!ENTITY bonjourfoxy.browser.service "Service Name">
+<!ENTITY bonjourfoxy.browser.type "Type">
+<!ENTITY bonjourfoxy.browser.domain "Domain">
+<!ENTITY bonjourfoxy.browser.host "Host">
+<!ENTITY bonjourfoxy.browser.port "Port">
+<!ENTITY bonjourfoxy.browser.txtrecord "TXT Record">
