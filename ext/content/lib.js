@@ -6,6 +6,9 @@ bonjourfoxy.lib = {
                 .getItemForID(extensionid)
                 .version;
     },
+    uistring: function(string) {
+        return document.getElementById("string-bundle").getString(string);
+    },
     _ServiceTracker: null,
     ServiceTracker: function() {
         if (!this._ServiceTracker)  {
