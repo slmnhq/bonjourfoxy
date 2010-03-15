@@ -67,4 +67,4 @@ Create a file called 'bonjourfoxy@bonjourfoxy.net' in your Firefox Profile's ext
 What about Linux/BSD?
 ---------------------
 
-BonjourFoxy can be built against Avahi's Bonjour compatibility layer. At the moment this can be done by first building the nixdir target and then running make again from nixdir folder  (as I'm only going to do source releases for *nix it's convenient for me). The Makefile produced by nixdir is sourced from ``src/Makefile.nix`` and has only been briefly tested on Ubuntu, Debian and Fedora. If you'd like to package BonjourFoxy for a particular OS feel free to contact me.
+BonjourFoxy can be built against Avahi's Bonjour compatibility layer. At the moment this can be done by first building the nixdir target and then running make again from nixdir folder  (as I'm only going to do source releases for nix it's convenient for me). The Makefile produced by nixdir is sourced from ``src/Makefile.nix`` and has only been briefly tested on Ubuntu, Debian and Fedora. If you'd like to package BonjourFoxy for a particular OS feel free to contact me.
