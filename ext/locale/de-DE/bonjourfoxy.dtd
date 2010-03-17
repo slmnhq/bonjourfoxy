@@ -4,14 +4,14 @@
 <!ENTITY bonjourfoxy.toolbar.tooltip "BonjourFoxy zeigen">
 
 <!ENTITY bonjourfoxy.sidebar.label "BonjourFoxy">
-<!ENTITY bonjourfoxy.sidebar.open.default "…ffnen">
-<!ENTITY bonjourfoxy.sidebar.open.tab "in neuem Tab šffnen">
-<!ENTITY bonjourfoxy.sidebar.open.window "in neuem Fenster šffnen">
+<!ENTITY bonjourfoxy.sidebar.open.default "Ã–ffnen">
+<!ENTITY bonjourfoxy.sidebar.open.tab "in neuem Tab Ã¶ffnen">
+<!ENTITY bonjourfoxy.sidebar.open.window "in neuem Fenster Ã¶ffnen">
 
 <!ENTITY bonjourfoxy.prefs.label "BonjourFoxy konfigurieren">
 <!ENTITY bonjourfoxy.prefs.alerts "Benachrichtigen bei Erkennung">
 <!ENTITY bonjourfoxy.prefs.statusbaricon "Statusleisten-Symbol">
-<!ENTITY bonjourfoxy.prefs.linktarget.label "…ffne links in">
+<!ENTITY bonjourfoxy.prefs.linktarget.label "Ã–ffne links in">
 <!ENTITY bonjourfoxy.prefs.linktarget.current "aktuelle Seite">
 <!ENTITY bonjourfoxy.prefs.linktarget.tab "Neuer Tab">
 <!ENTITY bonjourfoxy.prefs.linktarget.window "Neues Fenster">

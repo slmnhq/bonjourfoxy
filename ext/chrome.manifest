@@ -1,6 +1,7 @@
 content	bonjourfoxy	content/
 resource	bonjourfoxy	modules/
 locale	bonjourfoxy	en-US	locale/en-US/
+locale	bonjourfoxy	de-DE	locale/de-DE/
 skin	bonjourfoxy	classic/1.0	skin/
 skin	bonjourfoxy	classic/1.0	skin-darwin/ os=darwin
 overlay	chrome://browser/content/browser.xul	chrome://bonjourfoxy/content/browserOverlay.xul
