@@ -1,0 +1,28 @@
+<!ENTITY bonjourfoxy.label "BonjourFoxy">
+
+<!ENTITY bonjourfoxy.toolbar.label "BonjourFoxy">
+<!ENTITY bonjourfoxy.toolbar.tooltip "BonjourFoxy zeigen">
+
+<!ENTITY bonjourfoxy.sidebar.label "BonjourFoxy">
+<!ENTITY bonjourfoxy.sidebar.open.default "…ffnen">
+<!ENTITY bonjourfoxy.sidebar.open.tab "in neuem Tab šffnen">
+<!ENTITY bonjourfoxy.sidebar.open.window "in neuem Fenster šffnen">
+
+<!ENTITY bonjourfoxy.prefs.label "BonjourFoxy konfigurieren">
+<!ENTITY bonjourfoxy.prefs.alerts "Benachrichtigen bei Erkennung">
+<!ENTITY bonjourfoxy.prefs.statusbaricon "Statusleisten-Symbol">
+<!ENTITY bonjourfoxy.prefs.linktarget.label "…ffne links in">
+<!ENTITY bonjourfoxy.prefs.linktarget.current "aktuelle Seite">
+<!ENTITY bonjourfoxy.prefs.linktarget.tab "Neuer Tab">
+<!ENTITY bonjourfoxy.prefs.linktarget.window "Neues Fenster">
+<!ENTITY bonjourfoxy.prefs.sidebarsearch "Aktiviere Suche in Seitenleiste">
+<!ENTITY bonjourfoxy.prefs.apply "Einstellungen werden sofort aktiv">
+
+<!ENTITY bonjourfoxy.browser.label "Bonjour-Browser">
+<!ENTITY bonjourfoxy.browser.interfaceindex "Netzwerk-Schnittstelle">
+<!ENTITY bonjourfoxy.browser.service "Servicename">
+<!ENTITY bonjourfoxy.browser.type "Typ">
+<!ENTITY bonjourfoxy.browser.domain "Domain">
+<!ENTITY bonjourfoxy.browser.host "Host">
+<!ENTITY bonjourfoxy.browser.port "Port">
+<!ENTITY bonjourfoxy.browser.txtrecord "TXT-Record">

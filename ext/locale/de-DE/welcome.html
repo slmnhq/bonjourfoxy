@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>BonjourFoxy</title>
+<link rel="stylesheet" type="text/css" href="chrome://bonjourfoxy/content/welcome.css" />
+<script src="chrome://bonjourfoxy/content/namespace.js" type="text/javascript"></script>
+<script src="chrome://bonjourfoxy/content/lib.js" type="text/javascript"></script>
+<script src="chrome://bonjourfoxy/content/welcome.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="main">
+<h1>BonjourFoxy <span id="bfversion"></span> wurde erfolgreich installiert!</h1>
+<p class="mt">Hier sind ein paar Einstellungen, die Sie vielleicht anpassen m&ouml;chten...</p>
+<table>
+<tr>
+    <td class="option">
+        <div class="option">
+            <h3>BonjourFoxy in der Navigations-Symbolleiste</h3>
+            <div class="optdescription">
+            <p>Sparen Sie sich den Umweg &uuml;ber das Men&uuml; Ansicht&rarr;Sidebars. Integrieren Sie BojourFoxy einfach in ihre Navigations-Symbolleiste.</p>
+            <p class="c"><button id="btnTbExample"><img src="chrome://bonjourfoxy/content/transparent.gif" id="toolbarImageMac" style='background: url("chrome://bonjourfoxy/skin/toolbar-button.png"); clip: rect( 0px 30px 16px 24px); height: 22px; width: 36px; vertical-align: top;'/><img src="transparent.gif" id="toolbarImageWinNix" style='background: url("chrome://bonjourfoxy/skin/toolbar-button.png"); clip: rect( 0px 40px 16px 24px); height: 20px; width: 24px;'/></button></p>
+            </div>
+            <div class="optbutton"><button id="btnCustToolbar">Navigations-Symbolleiste anpassen</button></div>
+        </div>
+    </td>
+    <td class="option">
+        <div class="option">
+            <h3>Dienste-Erkennung</h3>
+            <div class="optdescription">
+            <p>Diese Symbole <img src="chrome://bonjourfoxy/content/status_bw.png"> oder <img src="chrome://bonjourfoxy/content/status_color.png"> rechts unten in der Statusleiste weisen auf Bonjour-Dienste hin.</p>
+            </div>
+            <div class="optbutton"><button id="btnToggleStatusIcon">Statusleisten-Symbol aktivieren</button></div>
+        </div>
+    </td>
+    <td class="option">
+        <div class="option">
+            <h3>Dienste-Benachrichtigung</h3>
+            <div class="optdescription">
+            <p>Sie werden benachrichtigt sobald ein neuer Bonjour-Dienst im Netzwerk gefunden wird.</p>
+            <p class="c"><button id="btnAlertExample">Zeige Beispiel-Benachrichtigung</button></p>
+            </div>
+            <div class="optbutton"><button id="btnToggleAlerts">Benachrichtigung aktivieren</button></div>
+        </div>
+    </td>
+</tr>
+</table>
+<p class="mt">Diese und andere Einstellungen k&ouml;nnen &uuml;ber das Men&uuml; Extras&rarr;Add-ons in den Erweiterungen ver&auml;ndert werden. Klicken Sie dazu auf BonjourFoxy und danach auf <span id="settingsTxtNixMac">Einstellungen</span><span id="settingsTxtWin">Optionen</span>.</p>
+<p class="ft">Mehr Informationen &uuml;ber BonjourFoxy erhalten Sie auf <a href="http://www.bonjourfoxy.net/">http://www.bonjourfoxy.net/</a></p>
+</div>
+</body>
+</html>
