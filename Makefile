@@ -1,5 +1,5 @@
 FF_RELS = 3.0 3.5 3.6
-BF_VER = 0.6.0
+BF_VER = 0.7.0
 MIN_VER = 3.0
 MAX_VER = 3.6.*
 
