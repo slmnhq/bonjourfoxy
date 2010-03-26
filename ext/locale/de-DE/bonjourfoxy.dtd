@@ -11,12 +11,12 @@
 <!ENTITY bonjourfoxy.prefs.label "BonjourFoxy konfigurieren">
 <!ENTITY bonjourfoxy.prefs.alerts "Benachrichtigen bei Erkennung">
 <!ENTITY bonjourfoxy.prefs.statusbaricon "Statusleisten-Symbol">
-<!ENTITY bonjourfoxy.prefs.linktarget.label "Öffne links in">
-<!ENTITY bonjourfoxy.prefs.linktarget.current "aktuelle Seite">
-<!ENTITY bonjourfoxy.prefs.linktarget.tab "Neuer Tab">
-<!ENTITY bonjourfoxy.prefs.linktarget.window "Neues Fenster">
+<!ENTITY bonjourfoxy.prefs.linktarget.label "Öffne Links in">
+<!ENTITY bonjourfoxy.prefs.linktarget.current "aktuellem Fenster">
+<!ENTITY bonjourfoxy.prefs.linktarget.tab "neuem Tab">
+<!ENTITY bonjourfoxy.prefs.linktarget.window "neuem Fenster">
 <!ENTITY bonjourfoxy.prefs.sidebarsearch "Aktiviere Suche in Seitenleiste">
-<!ENTITY bonjourfoxy.prefs.apply "Einstellungen werden sofort aktiv">
+<!ENTITY bonjourfoxy.prefs.apply "Einstellungen werden sofort aktiv.">
 
 <!ENTITY bonjourfoxy.browser.label "Bonjour-Browser">
 <!ENTITY bonjourfoxy.browser.interfaceindex "Netzwerk-Schnittstelle">
