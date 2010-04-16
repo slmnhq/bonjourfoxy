@@ -41,7 +41,7 @@
     <statusbarpanel id="bonjourStatusIcon"
         class="statusbarpanel-iconic"
         context="bonjourSBMenuPopup"
-        onclick="toggleSidebar('viewBonjourServices');"
+        oncommand="toggleSidebar('viewBonjourServices');"
     />
   </statusbar>
   -->
