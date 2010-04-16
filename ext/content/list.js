@@ -3,6 +3,7 @@ bonjourfoxy.list = {
         bonjourfoxy.lib.addUserPrefsObserver(bonjourfoxy.list);
         bonjourfoxy.lib.observerService().addObserver(bonjourfoxy.list, "BFServiceTracker_Change", false);
         document.getElementById("serviceListChildren").addEventListener("click", bonjourfoxy.list.listEventHandler, false);
+        document.getElementById("targetmenu").addEventListener("popupshowing", bonjourfoxy.list.listEventHandler, false);
         document.getElementById("targetmenu").addEventListener("command", bonjourfoxy.list.listEventHandler, false);
         bonjourfoxy.list.treeView.init();
         bonjourfoxy.list.displaySidebarsearch();
@@ -46,11 +47,12 @@ bonjourfoxy.list = {
         }
     },
     listEventHandler: function(event) {
-        if (event.type=='click' && event.button == 2)   { return; } // context menu click
         var selected = document.getElementById('serviceList').currentIndex;
-        if (selected==-1)   { return; }
+        if (selected == -1)   { event.preventDefault(); return; }
         var service = bonjourfoxy.list.treeView.data[selected];
-        if (service.isContainer)  { return; }
+        if (service.isContainer)   { event.preventDefault(); return; }
+        if (event.type=='click' && event.button == 2) { return; }
+        if (event.type=='popupshowing') { return; }
         var linkTarget = "default";
         if (event.type == 'command')  {
             linkTarget=event.target.value;
