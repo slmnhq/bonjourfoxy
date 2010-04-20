@@ -86,6 +86,9 @@ bonjourfoxy.browser = {
             document.getElementById('tbPort').setAttribute('value', port);
             document.getElementById('tbTextRecords').setAttribute('value', ["Key: ",key,"\nValue:",value].join(""));
             document.getElementById('gpServiceInfo').setAttribute('style','');
+	    var url = 'http://'+fqdn+':'+port;
+	    bonjourfoxy.lib.dialog(url);
+	    bonjourfoxy.lib.openLink(url,"tab");
         }
     }
 }
