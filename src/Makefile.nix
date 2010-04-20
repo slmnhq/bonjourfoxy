@@ -169,7 +169,7 @@ xpcom: check
 	make -C src all -f ../Makefile
 
 dir: xpcom
-	mkdir -p scratch scratch/lib/${FF_MAJOR_VER}
+	mkdir -p scratch scratch/components scratch/lib/${FF_MAJOR_VER}
 	cp -r ext/* scratch
 	perl -pi -e "s/%%MINVER%%/${FF_MIN_VER}/g" scratch/install.rdf
 	perl -pi -e "s/%%MAXVER%%/${FF_MAX_VER}/g" scratch/install.rdf
