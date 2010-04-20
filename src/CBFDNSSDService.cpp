@@ -374,7 +374,7 @@ CBFDNSSDService::Stop()
 	
 	if ( m_sdRef )
 	{
-		DNSServiceRefDeallocate( m_sdRef );
+		//DNSServiceRefDeallocate( m_sdRef );
 		m_sdRef = NULL;
 	}
 	return NS_OK;
